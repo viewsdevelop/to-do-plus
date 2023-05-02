@@ -4,11 +4,11 @@ function List({ items }) {
   return (
     <ul>
       {items.map((item) => (
-        <li key={item.id}>
-          <div>Title: {item.title}</div>
-          <div>Description: {item.description}</div>
-          <div>Completed: {item.completed ? '✅' : '❌'}</div>
-        </li>
+        <div>
+          <p>Title: {item.title}</p>
+          <p>Description: {item.description}</p>
+          <p>Completed: {item.completed ? '✅' : '❌'}</p>
+        </div>
       ))}
     </ul>
   )
