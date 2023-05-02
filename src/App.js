@@ -1,29 +1,20 @@
 import './App.css'
+import React, { useState } from 'react'
 
 // Components
 import List from './components/List'
-
-const items = [
-  {
-    title: 'First Item',
-    description: 'First Item to Complete',
-    completed: false,
-  },
-  {
-    title: 'Second Item',
-    description: 'Second Item to Complete',
-    completed: false,
-  },
-  {
-    title: 'Third Item',
-    description: 'Third Item to Complete',
-    completed: false,
-  },
-]
+import AddItemForm from './components/AddItemForm'
 
 function App() {
+  const [items, setItems] = useState([])
+
+  const handleAddItem = (newItem) => {
+    setItems([...items, newItem])
+  }
+
   return (
     <div>
+      <AddItemForm onAddItem={handleAddItem} />
       <List items={items} />
     </div>
   )
