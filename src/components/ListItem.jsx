@@ -5,7 +5,7 @@ function ListItem({ item, onRemove }) {
 
   const handleRemoveClick = () => {
     setIsVisible(false)
-    onRemove(item)
+    onRemove(item.id)
   }
 
   return (
