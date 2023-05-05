@@ -1,14 +1,11 @@
 import React from 'react'
+import ListItem from './ListItem'
 
 function List({ items }) {
   return (
     <ul>
       {items.map((item, index) => (
-        <div key={index}>
-          <p>Title: {item.title}</p>
-          <p>Description: {item.description}</p>
-          <p>Completed: {item.completed ? '✅' : '❌'}</p>
-        </div>
+        <ListItem key={index} item={item} />
       ))}
     </ul>
   )
