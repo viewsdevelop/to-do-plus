@@ -36,11 +36,11 @@ function AddItemForm(props) {
 
   return (
     <div className={classes.root}>
-      <h2>Add New Item</h2>
+      <h2>Add New Task</h2>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
           className={classes.textField}
-          label="Title"
+          label="Task"
           variant="outlined"
           value={title}
           onChange={(e) => setTitle(e.target.value)}

@@ -12,10 +12,14 @@ function App() {
     setItems([...items, newItem])
   }
 
+  const handleRemove = (item) => {
+    setItems(items.filter((i) => i !== item))
+  }
+
   return (
     <div>
       <AddItemForm onAddItem={handleAddItem} />
-      <List items={items} />
+      <List items={items} handleRemove={handleRemove} />
     </div>
   )
 }

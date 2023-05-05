@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-function ListItem({ item }) {
+function ListItem({ item, onRemove }) {
+  const [isVisible, setIsVisible] = useState(true)
+
+  const handleRemoveClick = () => {
+    setIsVisible(false)
+    onRemove(item)
+  }
+
   return (
-    <div>
-      <p>Title: {item.title}</p>
+    <div style={{ display: isVisible ? 'block' : 'none' }}>
+      <p>Task: {item.title}</p>
       <p>Description: {item.description}</p>
-      <p>Completed: {item.completed ? '✅' : '❌'}</p>
+      <button onClick={handleRemoveClick}>Complete ✅</button>
     </div>
   )
 }
