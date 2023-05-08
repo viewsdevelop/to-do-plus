@@ -26,12 +26,32 @@ function AddItemForm(props) {
   const classes = useStyles()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [titleError, setTitleError] = useState('')
+  const [descriptionError, setDescriptionError] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    props.onAddItem({ title, description })
-    setTitle('')
-    setDescription('')
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (!title) {
+      setTitleError(true)
+    }
+    if (!description) {
+      setDescriptionError(true)
+    }
+    if (title && description) {
+      props.onAddItem({ title, description })
+      setTitle('')
+      setDescription('')
+      setTitleError(false)
+      setDescriptionError(false)
+    }
   }
 
   return (
@@ -43,17 +63,23 @@ function AddItemForm(props) {
           label="Task"
           variant="outlined"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={handleTitleChange}
+          error={titleError}
+          helperText={titleError ? 'Title is required' : ''}
         />
+        {titleError && <div className="error">{titleError}</div>}
         <TextField
           className={classes.textField}
           label="Description"
           variant="outlined"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={handleDescriptionChange}
+          error={descriptionError}
+          helperText={descriptionError ? 'Description is required' : ''}
         />
+        {descriptionError && <div className="error">{descriptionError}</div>}
         <Button type="submit" variant="contained" color="primary">
-          Add Item
+          Add Task
         </Button>
       </form>
     </div>
