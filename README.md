@@ -32,7 +32,6 @@ npm start
 http://localhost:3000
 ```
 
-Alternatively, you can access the hosted version of the application at:
-https://viewsdevelop.github.io/to-do-plus/
+Alternatively, you can access the hosted version of the application <a href="https://viewsdevelop.github.io/to-do-plus/" target="_blank">here</a>.
 
 That's it! You should now be able to use the application in your browser. If you encounter any issues or have questions, please don't hesitate to reach out.
