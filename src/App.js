@@ -18,10 +18,21 @@ function App() {
     setItems(items.filter((item) => item.id !== id))
   }
 
+  const handleSave = (updatedItem) => {
+    setItems((prevItems) => {
+      return prevItems.map((item) => {
+        if (item.id === updatedItem.id) {
+          return updatedItem
+        }
+        return item
+      })
+    })
+  }
+
   return (
     <div>
       <AddItemForm onAddItem={handleAddItem} />
-      <List items={items} handleRemove={handleRemove} />
+      <List items={items} handleRemove={handleRemove} handleSave={handleSave} />
     </div>
   )
 }

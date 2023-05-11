@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function ListItem({ item, onRemove }) {
+function ListItem({ item, onRemove, onSave }) {
   const [isVisible, setIsVisible] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(item.title)
@@ -22,7 +22,12 @@ function ListItem({ item, onRemove }) {
   }
 
   const handleSaveClick = () => {
-    // TODO: update the item with the new title and description
+    const updatedItem = {
+      ...item,
+      title,
+      description,
+    }
+    onSave(updatedItem)
     setIsEditing(false)
   }
 
