@@ -1,9 +1,20 @@
 import React from 'react'
 import ListItem from './ListItem'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles({
+  cardContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+})
 
 function List({ items, handleRemove, handleSave }) {
+  const classes = useStyles()
+
   return (
-    <ul>
+    <div className={classes.cardContainer}>
       {items.map((item) => (
         <ListItem
           key={item.id}
@@ -12,7 +23,7 @@ function List({ items, handleRemove, handleSave }) {
           onSave={handleSave}
         />
       ))}
-    </ul>
+    </div>
   )
 }
 
