@@ -3,6 +3,8 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -124,10 +126,21 @@ function ListItem({ item, onRemove, onSave }) {
           </form>
         ) : (
           <>
-            <p className={classes.task}>Task: {item.title}</p>
-            <p className={classes.description}>
-              Description: {item.description}
-            </p>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                marginBottom: '10px',
+              }}
+            >
+              <Typography variant="h6" component="h2" className={classes.task}>
+                {item.title}
+              </Typography>
+              <Typography variant="body1" className={classes.description}>
+                {item.description}
+              </Typography>
+            </div>
             <Button
               variant="contained"
               color="primary"
