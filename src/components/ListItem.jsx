@@ -33,6 +33,8 @@ function ListItem({ item, onRemove, onSave }) {
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(item.title)
   const [description, setDescription] = useState(item.description)
+  const [titleError, setTitleError] = useState(false)
+  const [descriptionError, setDescriptionError] = useState(false)
 
   const handleRemoveClick = () => {
     setIsVisible(false)
@@ -47,16 +49,28 @@ function ListItem({ item, onRemove, onSave }) {
     setIsEditing(false)
     setTitle(item.title)
     setDescription(item.description)
+    setTitleError(false)
+    setDescriptionError(false)
   }
 
   const handleSaveClick = () => {
-    const updatedItem = {
-      ...item,
-      title,
-      description,
+    if (!title) {
+      setTitleError(true)
     }
-    onSave(updatedItem)
-    setIsEditing(false)
+    if (!description) {
+      setDescriptionError(true)
+    }
+    if (title && description) {
+      const updatedItem = {
+        ...item,
+        title,
+        description,
+      }
+      onSave(updatedItem)
+      setIsEditing(false)
+      setTitleError(false)
+      setDescriptionError(false)
+    }
   }
 
   return (
@@ -75,6 +89,8 @@ function ListItem({ item, onRemove, onSave }) {
               fullWidth
               margin="normal"
               placeholder="Enter a title"
+              error={titleError}
+              helperText={titleError ? 'Title is required' : ''}
             />
             <TextField
               label="Description"
@@ -86,6 +102,8 @@ function ListItem({ item, onRemove, onSave }) {
               placeholder="Enter a description"
               multiline
               rows={4}
+              error={descriptionError}
+              helperText={descriptionError ? 'Description is required' : ''}
             />
             <Button
               variant="contained"
