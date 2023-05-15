@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -19,6 +21,9 @@ const useStyles = makeStyles({
   },
   description: {
     marginTop: '5px',
+  },
+  button: {
+    margin: '5px',
   },
 })
 
@@ -62,23 +67,42 @@ function ListItem({ item, onRemove, onSave }) {
       <CardContent className={classes.cardContent}>
         {isEditing ? (
           <form>
-            <label>
-              Title:
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-            <label>
-              Description:
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </label>
-            <button onClick={handleSaveClick}>Save</button>
-            <button onClick={handleCancelClick}>Cancel</button>
+            <TextField
+              label="Title"
+              variant="outlined"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              fullWidth
+              margin="normal"
+              placeholder="Enter a title"
+            />
+            <TextField
+              label="Description"
+              variant="outlined"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              fullWidth
+              margin="normal"
+              placeholder="Enter a description"
+              multiline
+              rows={4}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={handleSaveClick}
+            >
+              Save
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={handleCancelClick}
+            >
+              Cancel
+            </Button>
           </form>
         ) : (
           <>
@@ -86,8 +110,22 @@ function ListItem({ item, onRemove, onSave }) {
             <p className={classes.description}>
               Description: {item.description}
             </p>
-            <button onClick={handleEditClick}>Edit ✏️</button>
-            <button onClick={handleRemoveClick}>Complete ✅</button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={handleEditClick}
+            >
+              Edit ✏️
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={handleRemoveClick}
+            >
+              Complete ✅
+            </Button>
           </>
         )}
       </CardContent>
