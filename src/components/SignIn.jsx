@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { TextField, Button } from '@material-ui/core'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
 function SignIn() {
   const [email, setEmail] = useState('')
@@ -14,7 +15,17 @@ function SignIn() {
   }
 
   const handleSignIn = () => {
-    // Implement the sign in logic using Firebase Authentication SDK
+    const auth = getAuth()
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+        console.log('User signed in:', user)
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.error('Sign-in error:', errorCode, errorMessage)
+      })
   }
 
   return (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { TextField, Button } from '@material-ui/core'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 function SignUp() {
   const [email, setEmail] = useState('')
@@ -14,7 +15,17 @@ function SignUp() {
   }
 
   const handleSignUp = () => {
-    // Implement the sign up logic using Firebase Authentication SDK
+    const auth = getAuth()
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user
+        console.log('User signed up:', user)
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.error('Sign-up error:', errorCode, errorMessage)
+      })
   }
 
   return (
