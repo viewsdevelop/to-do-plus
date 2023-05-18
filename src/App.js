@@ -10,6 +10,14 @@ import AddItemForm from './components/AddItemForm'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 
+// Firebase
+import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
+import firebaseConfig from './firebaseConfig'
+
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
+
 const useStyles = makeStyles({
   hero: {
     backgroundColor: '#F0F0F0',
@@ -38,8 +46,19 @@ function App() {
   const classes = useStyles()
 
   useEffect(() => {
-    // Check if user is signed using the Firebase Authentication SDK
-    // Update the `user` state accordingly
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        // User is signed in
+        const { displayName, uid, email } = userAuth
+        setUser({ displayName, uid, email })
+      } else {
+        // User is signed out
+        setUser(null)
+      }
+    })
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe()
   }, [])
 
   const handleAddItem = (newItem) => {
@@ -79,7 +98,7 @@ function App() {
           </>
         ) : (
           <>
-            <h1>Welcome, {user.displayName}!</h1>
+            <h1>Welcome, {user.email}!</h1>
             <AddItemForm onAddItem={handleAddItem} />
             <List
               items={items}
