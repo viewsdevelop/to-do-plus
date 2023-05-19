@@ -149,7 +149,7 @@ function App() {
             className={classes.logOutButton}
             onClick={handleLogInButtonClick}
           >
-            Log In
+            Sign In
           </Button>
         )}
         {user && (
@@ -159,7 +159,7 @@ function App() {
             className={classes.logOutButton}
             onClick={handleSignOut}
           >
-            Log Out
+            Sign Out
           </Button>
         )}
       </div>
