@@ -1,7 +1,6 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -85,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const [items, setItems] = useState([])
   const [user, setUser] = useState(null)
+  const [isSignInVisible, setIsSignInVisible] = useState(false)
 
   const classes = useStyles()
 
@@ -132,12 +132,26 @@ function App() {
       })
   }
 
+  const handleLogInButtonClick = () => {
+    setIsSignInVisible(true)
+  }
+
   return (
     <div className={classes.centerContent}>
       <div className={classes.hero}>
         <Typography variant="h1" className={classes.title}>
           ✅ ToDo+
         </Typography>
+        {!user && (
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.logOutButton}
+            onClick={handleLogInButtonClick}
+          >
+            Log In
+          </Button>
+        )}
         {user && (
           <Button
             variant="contained"
@@ -151,26 +165,11 @@ function App() {
       </div>
       <div className={classes.cardContainer}>
         {!user ? (
-          <Card className={classes.cardContent}>
-            <CardContent>
-              <Typography
-                variant="h5"
-                component="h2"
-                className={classes.signInTitle}
-              >
-                Sign In
-              </Typography>
-              <Box
-                className={classes.signInForm}
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                mb={{ xs: 4, sm: 0 }} // Add margin-bottom on small screens
-              >
-                <SignIn />
-              </Box>
-            </CardContent>
-          </Card>
+          isSignInVisible ? (
+            <SignIn />
+          ) : (
+            <SignUp />
+          )
         ) : (
           <>
             <h1>Welcome, {user.email}!</h1>
@@ -183,32 +182,6 @@ function App() {
           </>
         )}
       </div>
-      {!user && (
-        <div className={classes.cardContainer}>
-          <Box boxShadow={1}>
-            <Card className={classes.cardContent}>
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  component="h2"
-                  className={classes.signUpTitle}
-                >
-                  Sign Up
-                </Typography>
-                <Box
-                  className={classes.signUpForm}
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  mb={{ xs: 4, sm: 0 }}
-                >
-                  <SignUp />
-                </Box>
-              </CardContent>
-            </Card>
-          </Box>
-        </div>
-      )}
     </div>
   )
 }

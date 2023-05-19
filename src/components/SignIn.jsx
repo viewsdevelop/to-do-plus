@@ -90,6 +90,7 @@ function SignIn() {
 
   return (
     <div className={classes.container}>
+      <h1>Log In</h1>
       <form onSubmit={handleFormSubmit}>
         <TextField
           label="Email"

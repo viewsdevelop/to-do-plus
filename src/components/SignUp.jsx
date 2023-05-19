@@ -79,6 +79,7 @@ function SignUp() {
 
   return (
     <div className={classes.container}>
+      <h1>Sign Up</h1>
       <form onSubmit={handleFormSubmit}>
         <TextField
           label="Email"
