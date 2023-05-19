@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { TextField, Button, FormHelperText } from '@material-ui/core'
+import {
+  TextField,
+  Button,
+  FormHelperText,
+  CircularProgress,
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
@@ -17,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
   signInError: {
     marginTop: theme.spacing(2),
   },
+  loadingContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }))
 
 function SignIn() {
@@ -25,6 +35,7 @@ function SignIn() {
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [signInError, setSignInError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const classes = useStyles()
 
@@ -52,17 +63,21 @@ function SignIn() {
     setEmailError('')
     setPasswordError('')
     setSignInError('')
+    setIsLoading(true)
 
     if (!isValidEmail(email)) {
       setEmailError('Please enter a valid email')
+      setIsLoading(false)
     } else if (!isValidPassword(password)) {
       setPasswordError('Password must be at least 6 characters long')
+      setIsLoading(false)
     } else {
       const auth = getAuth()
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user
           console.log('User signed in:', user)
+          setIsLoading(false)
         })
         .catch((error) => {
           const errorCode = error.code
@@ -79,6 +94,7 @@ function SignIn() {
           } else {
             setSignInError(errorMessage)
           }
+          setIsLoading(false)
         })
     }
   }
@@ -111,8 +127,15 @@ function SignIn() {
           color="primary"
           type="submit"
           className={classes.signInButton}
+          disabled={isLoading} // Disable button when loading
         >
-          Sign In
+          {isLoading ? (
+            <div className={classes.loadingContainer}>
+              <CircularProgress size={24} />
+            </div>
+          ) : (
+            'Sign In'
+          )}
         </Button>
       </form>
       <div className={classes.signInError}>

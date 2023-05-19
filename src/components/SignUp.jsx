@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { TextField, Button, FormHelperText } from '@material-ui/core'
+import {
+  TextField,
+  Button,
+  FormHelperText,
+  CircularProgress,
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
@@ -17,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
   signUpError: {
     marginTop: theme.spacing(2),
   },
+  loadingContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }))
 
 function SignUp() {
@@ -25,6 +35,7 @@ function SignUp() {
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [signUpError, setSignUpError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const classes = useStyles()
 
@@ -51,23 +62,34 @@ function SignUp() {
     setEmailError('')
     setPasswordError('')
     setSignUpError('')
+    setIsLoading(true)
 
     if (!isValidEmail(email)) {
       setEmailError('Please enter a valid email')
+      setIsLoading(false)
     } else if (!isValidPassword(password)) {
       setPasswordError('Password must be at least 6 characters long')
+      setIsLoading(false)
     } else {
       const auth = getAuth()
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user
           console.log('User signed up:', user)
+          setIsLoading(false)
         })
         .catch((error) => {
           const errorCode = error.code
           const errorMessage = error.message
           console.error('Sign-up error:', errorCode, errorMessage)
-          setSignUpError(errorMessage)
+          if (errorCode === 'auth/email-already-in-use') {
+            setSignUpError(
+              'This email is already in use. Please use a different email.'
+            )
+          } else {
+            setSignUpError(errorMessage)
+          }
+          setIsLoading(false)
         })
     }
   }
@@ -100,8 +122,15 @@ function SignUp() {
           color="primary"
           type="submit"
           className={classes.signUpButton}
+          disabled={isLoading} // Disable button when loading
         >
-          Sign Up
+          {isLoading ? (
+            <div className={classes.loadingContainer}>
+              <CircularProgress size={24} />
+            </div>
+          ) : (
+            'Sign Up'
+          )}
         </Button>
         <div className={classes.signUpError}>
           <FormHelperText error={!!signUpError}>{signUpError}</FormHelperText>
