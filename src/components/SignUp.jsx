@@ -29,9 +29,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   cardHeight: {
-    height: '310px',
+    minHeight: '310px',
+    overflow: 'auto',
     [theme.breakpoints.down('sm')]: {
-      height: '350px',
+      minHeight: '330px',
+      overflow: 'auto',
     },
   },
   signUpButton: {
