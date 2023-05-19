@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     marginTop: theme.spacing(4),
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+    [theme.breakpoints.down('sm')]: {
+      width: '90%', // Adjust the width for mobile view
+    },
   },
   cardContent: {
     display: 'flex',
