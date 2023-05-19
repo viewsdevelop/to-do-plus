@@ -1,10 +1,26 @@
 import React, { useState } from 'react'
 import { TextField, Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+
+const useStyles = makeStyles((theme) => ({
+  signInButton: {
+    marginTop: theme.spacing(4),
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '70%',
+    margin: '0 auto',
+  },
+}))
 
 function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const classes = useStyles()
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
@@ -29,7 +45,7 @@ function SignIn() {
   }
 
   return (
-    <div>
+    <div className={classes.container}>
       <TextField
         label="Email"
         type="email"
@@ -42,7 +58,12 @@ function SignIn() {
         value={password}
         onChange={handlePasswordChange}
       />
-      <Button variant="contained" color="primary" onClick={handleSignIn}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSignIn}
+        className={classes.signInButton}
+      >
         Sign In
       </Button>
     </div>

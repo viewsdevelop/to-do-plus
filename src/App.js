@@ -1,6 +1,7 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -49,11 +50,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '20px',
   },
   cardContainer: {
-    marginTop: '20px',
+    marginTop: theme.spacing(4),
+    width: '75%',
   },
   cardContent: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(5),
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#F0F0F0',
   },
   signInTitle: {
     fontSize: '36px',
@@ -64,6 +67,18 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '36px',
     fontWeight: 'bold',
     marginBottom: theme.spacing(2),
+  },
+  signInForm: {
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(4),
+    },
+  },
+  signUpForm: {
+    marginTop: theme.spacing(4),
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(8),
+    },
   },
 }))
 
@@ -148,7 +163,15 @@ function App() {
               >
                 Sign In
               </Typography>
-              <SignIn />
+              <Box
+                className={classes.signInForm}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                mb={{ xs: 4, sm: 0 }} // Add margin-bottom on small screens
+              >
+                <SignIn />
+              </Box>
             </CardContent>
           </Card>
         ) : (
@@ -175,7 +198,15 @@ function App() {
                 >
                   Sign Up
                 </Typography>
-                <SignUp />
+                <Box
+                  className={classes.signUpForm}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  mb={{ xs: 4, sm: 0 }}
+                >
+                  <SignUp />
+                </Box>
               </CardContent>
             </Card>
           </Box>
