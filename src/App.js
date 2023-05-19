@@ -91,16 +91,13 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        // User is signed in
         const { displayName, uid, email } = userAuth
         setUser({ displayName, uid, email })
       } else {
-        // User is signed out
         setUser(null)
       }
     })
 
-    // Cleanup subscription on unmount
     return () => unsubscribe()
   }, [])
 

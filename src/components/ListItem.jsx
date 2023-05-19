@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles({
   card: {
     marginBottom: '10px',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#F0F0F0',
   },
   cardContent: {
     display: 'flex',
