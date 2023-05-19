@@ -4,28 +4,37 @@ import {
   Button,
   FormHelperText,
   CircularProgress,
+  Card,
+  CardContent,
+  makeStyles,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { PersonAdd } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
-  signUpButton: {
+  card: {
+    width: '70%',
+    margin: '0 auto',
     marginTop: theme.spacing(4),
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
   },
-  container: {
+  cardContent: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '70%',
-    margin: '0 auto',
+    padding: theme.spacing(2),
   },
-  signUpError: {
-    marginTop: theme.spacing(2),
+  signUpButton: {
+    marginTop: theme.spacing(4),
   },
   loadingContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  signInError: {
+    marginTop: theme.spacing(2),
   },
 }))
 
@@ -100,43 +109,48 @@ function SignUp() {
   }
 
   return (
-    <div className={classes.container}>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleFormSubmit}>
-        <TextField
-          label="Email"
-          type="email"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <FormHelperText error={!!emailError}>{emailError}</FormHelperText>
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <FormHelperText error={!!passwordError}>{passwordError}</FormHelperText>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          className={classes.signUpButton}
-          disabled={isLoading} // Disable button when loading
-        >
-          {isLoading ? (
-            <div className={classes.loadingContainer}>
-              <CircularProgress size={24} />
-            </div>
-          ) : (
-            'Sign Up'
-          )}
-        </Button>
-        <div className={classes.signUpError}>
-          <FormHelperText error={!!signUpError}>{signUpError}</FormHelperText>
-        </div>
-      </form>
-    </div>
+    <Card className={classes.card}>
+      <CardContent className={classes.cardContent}>
+        <h1>Join the Community</h1>
+        <form onSubmit={handleFormSubmit}>
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <FormHelperText error={!!emailError}>{emailError}</FormHelperText>
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <FormHelperText error={!!passwordError}>
+            {passwordError}
+          </FormHelperText>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            className={classes.signUpButton}
+            disabled={isLoading}
+            startIcon={<PersonAdd />}
+          >
+            {isLoading ? (
+              <div className={classes.loadingContainer}>
+                <CircularProgress size={24} />
+              </div>
+            ) : (
+              'Sign Up'
+            )}
+          </Button>
+          <div className={classes.signUpError}>
+            <FormHelperText error={!!signUpError}>{signUpError}</FormHelperText>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   )
 }
 
