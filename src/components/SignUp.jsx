@@ -38,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
   signUpError: {
     marginTop: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'center',
   },
 }))
 

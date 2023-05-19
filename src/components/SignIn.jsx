@@ -37,6 +37,16 @@ const useStyles = makeStyles((theme) => ({
   },
   signInError: {
     marginTop: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '48px',
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-start', // Left-aligned for larger screens
+    },
+    formHelperText: {
+      textAlign: 'center', // Add this
+    },
   },
 }))
 
@@ -99,9 +109,7 @@ function SignIn() {
               'User not found. Please check your email / password or create a new account.'
             )
           } else if (errorCode === 'auth/wrong-password') {
-            setSignInError(
-              'The password is incorrect for the provided email. Please try again.'
-            )
+            setSignInError('Incorrect password. Please try again.')
           } else {
             setSignInError(errorMessage)
           }
@@ -154,7 +162,12 @@ function SignIn() {
           </Button>
         </form>
         <div className={classes.signInError}>
-          <FormHelperText error={!!signInError}>{signInError}</FormHelperText>
+          <FormHelperText
+            className={classes.formHelperText}
+            error={!!signInError}
+          >
+            {signInError}
+          </FormHelperText>
         </div>
       </CardContent>
     </Card>
