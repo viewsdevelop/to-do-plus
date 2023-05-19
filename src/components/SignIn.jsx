@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(2),
   },
+  cardHeight: {
+    height: '310px',
+    [theme.breakpoints.down('sm')]: {
+      height: '350px',
+    },
+  },
   signInButton: {
     marginTop: theme.spacing(4),
   },
@@ -124,7 +130,7 @@ function SignIn() {
   }
 
   return (
-    <Card className={classes.card}>
+    <Card className={`${classes.card} ${classes.cardHeight}`}>
       <CardContent className={classes.cardContent}>
         <h1>Sign Into Your Account</h1>
         <form onSubmit={handleFormSubmit}>

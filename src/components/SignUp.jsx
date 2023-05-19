@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
     [theme.breakpoints.down('sm')]: {
-      width: '90%', // Adjust the width for mobile view
+      width: '90%',
     },
   },
   cardContent: {
@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: theme.spacing(2),
+  },
+  cardHeight: {
+    height: '310px',
+    [theme.breakpoints.down('sm')]: {
+      height: '350px',
+    },
   },
   signUpButton: {
     marginTop: theme.spacing(4),
@@ -114,7 +120,7 @@ function SignUp() {
   }
 
   return (
-    <Card className={classes.card}>
+    <Card className={`${classes.card} ${classes.cardHeight}`}>
       <CardContent className={classes.cardContent}>
         <h1>Join the Community</h1>
         <form onSubmit={handleFormSubmit}>
