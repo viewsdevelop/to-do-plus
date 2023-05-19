@@ -4,9 +4,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Box from '@material-ui/core/Box'
 
 // Components
 import List from './components/List'
@@ -101,6 +98,14 @@ function App() {
     return () => unsubscribe()
   }, [])
 
+  const handleShowSignUp = () => {
+    setIsSignInVisible(false)
+  }
+
+  const handleShowSignIn = () => {
+    setIsSignInVisible(true)
+  }
+
   const handleAddItem = (newItem) => {
     const newItemWithId = { ...newItem, id: uuidv4() }
     setItems([...items, newItemWithId])
@@ -133,13 +138,17 @@ function App() {
   }
 
   const handleLogInButtonClick = () => {
-    setIsSignInVisible(true)
+    handleShowSignIn()
   }
 
   return (
     <div className={classes.centerContent}>
       <div className={classes.hero}>
-        <Typography variant="h1" className={classes.title}>
+        <Typography
+          variant="h1"
+          className={classes.title}
+          onClick={handleShowSignUp}
+        >
           ✅ ToDo+
         </Typography>
         {!user && (
