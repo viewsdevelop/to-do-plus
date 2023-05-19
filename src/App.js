@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#333',
     textAlign: 'left',
     marginLeft: '20px',
+    cursor: 'pointer',
   },
   centerContent: {
     display: 'flex',
