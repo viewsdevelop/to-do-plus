@@ -77,6 +77,12 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(8),
     },
   },
+  welcomeMessage: {
+    fontSize: '1.5em',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1.2em',
+    },
+  },
 }))
 
 function App() {
@@ -182,7 +188,9 @@ function App() {
           )
         ) : (
           <>
-            <h1>Welcome, {user.email}!</h1>
+            <Typography variant="h1" className={classes.welcomeMessage}>
+              Welcome, {user.email}!
+            </Typography>
             <AddItemForm onAddItem={handleAddItem} />
             <List
               items={items}
