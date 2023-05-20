@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#333',
     textAlign: 'left',
     marginLeft: '20px',
+    cursor: 'default',
+  },
+  clickableTitle: {
     cursor: 'pointer',
   },
   centerContent: {
@@ -100,26 +103,51 @@ function App() {
   const [items, setItems] = useState([])
   const [user, setUser] = useState(null)
   const [isSignInVisible, setIsSignInVisible] = useState(false)
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false)
+  const [hasAuthFadedOut, setHasAuthFadedOut] = useState(false)
+  const [isSigningOut, setIsSigningOut] = useState(false)
+  const [showAuthenticated, setShowAuthenticated] = useState(false)
+  const [isUserLoaded, setIsUserLoaded] = useState(false)
+
+  const duration = 250
+  const classes = useStyles()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
         const { displayName, uid, email } = userAuth
         setUser({ displayName, uid, email })
+        setIsUserLoaded(true)
+        setIsSignInVisible(false)
+        setIsSignUpVisible(false)
+        setTimeout(() => {
+          setHasAuthFadedOut(true)
+          setTimeout(() => setShowAuthenticated(true), duration)
+        }, duration)
       } else {
         setUser(null)
+        setIsUserLoaded(true)
+        setShowAuthenticated(false)
+        setHasAuthFadedOut(false)
+        setTimeout(() => {
+          setIsSignInVisible(true)
+        }, duration)
       }
     })
 
     return () => unsubscribe()
-  }, [])
+  }, [duration])
 
   const handleShowSignUp = () => {
     setIsSignInVisible(false)
+    setIsSignUpVisible(true)
+    setHasAuthFadedOut(false)
   }
 
   const handleShowSignIn = () => {
     setIsSignInVisible(true)
+    setIsSignUpVisible(false)
+    setHasAuthFadedOut(false)
   }
 
   const handleAddItem = (newItem) => {
@@ -145,7 +173,12 @@ function App() {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        // Successfully signed out
+        setUser(null) // Set user to null immediately after signing out
+        setShowAuthenticated(false) // Also set showAuthenticated to false
+        setIsSigningOut(true)
+        setTimeout(() => {
+          setIsSignInVisible(true)
+        }, duration)
       })
       .catch((error) => {
         // Handle sign out error
@@ -157,16 +190,21 @@ function App() {
     handleShowSignIn()
   }
 
-  const duration = 250
-  const classes = useStyles()
+  useEffect(() => {
+    if (isSigningOut && !user) {
+      setTimeout(() => {
+        setIsSigningOut(false)
+      }, duration)
+    }
+  }, [isSigningOut, user, duration])
 
   return (
     <div className={classes.centerContent}>
       <div className={classes.hero}>
         <Typography
           variant="h1"
-          className={classes.title}
-          onClick={handleShowSignUp}
+          className={`${classes.title} ${!user ? classes.clickableTitle : ''}`}
+          onClick={user ? null : handleShowSignUp}
         >
           ✅ ToDo+
         </Typography>
@@ -192,32 +230,47 @@ function App() {
         )}
       </div>
       <div className={classes.cardContainer}>
-        {!user ? (
-          <div className={classes.authContainer}>
-            <Fade in={isSignInVisible} timeout={duration} unmountOnExit>
-              <div className={classes.authComponent}>
-                <SignIn />
-              </div>
-            </Fade>
-            <Fade in={!isSignInVisible} timeout={duration} unmountOnExit>
-              <div className={classes.authComponent}>
-                <SignUp />
-              </div>
-            </Fade>
-          </div>
-        ) : (
-          <>
-            <Typography variant="h1" className={classes.welcomeMessage}>
-              Welcome, {user.email}!
-            </Typography>
-            <AddItemForm onAddItem={handleAddItem} />
-            <List
-              items={items}
-              handleRemove={handleRemove}
-              handleSave={handleSave}
-            />
-          </>
-        )}
+        <div className={classes.authContainer}>
+          <Fade
+            in={!user && !isSigningOut && isSignInVisible}
+            timeout={duration}
+            unmountOnExit
+          >
+            <div className={classes.authComponent}>
+              <SignIn />
+            </div>
+          </Fade>
+          <Fade
+            in={!user && !isSigningOut && isSignUpVisible}
+            timeout={duration}
+            unmountOnExit
+          >
+            <div className={classes.authComponent}>
+              <SignUp />
+            </div>
+          </Fade>
+          <Fade
+            in={!!user && !isSigningOut && showAuthenticated}
+            timeout={duration}
+            unmountOnExit
+          >
+            <div className={classes.authComponent}>
+              <>
+                {isUserLoaded && user && showAuthenticated && (
+                  <Typography variant="h1" className={classes.welcomeMessage}>
+                    Welcome, {user.email}
+                  </Typography>
+                )}
+                <AddItemForm onAddItem={handleAddItem} />
+                <List
+                  items={items}
+                  handleRemove={handleRemove}
+                  handleSave={handleSave}
+                />
+              </>
+            </div>
+          </Fade>
+        </div>
       </div>
     </div>
   )
