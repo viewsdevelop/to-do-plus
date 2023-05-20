@@ -104,7 +104,6 @@ function App() {
   const [user, setUser] = useState(null)
   const [isSignInVisible, setIsSignInVisible] = useState(false)
   const [isSignUpVisible, setIsSignUpVisible] = useState(false)
-  const [hasAuthFadedOut, setHasAuthFadedOut] = useState(false)
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [showAuthenticated, setShowAuthenticated] = useState(false)
   const [isUserLoaded, setIsUserLoaded] = useState(false)
@@ -121,33 +120,27 @@ function App() {
         setIsSignInVisible(false)
         setIsSignUpVisible(false)
         setTimeout(() => {
-          setHasAuthFadedOut(true)
-          setTimeout(() => setShowAuthenticated(true), duration)
+          setShowAuthenticated(true)
         }, duration)
       } else {
         setUser(null)
         setIsUserLoaded(true)
         setShowAuthenticated(false)
-        setHasAuthFadedOut(false)
-        setTimeout(() => {
-          setIsSignInVisible(true)
-        }, duration)
+        setIsSignInVisible(true)
       }
     })
 
     return () => unsubscribe()
-  }, [duration])
+  }, [])
 
   const handleShowSignUp = () => {
     setIsSignInVisible(false)
     setIsSignUpVisible(true)
-    setHasAuthFadedOut(false)
   }
 
   const handleShowSignIn = () => {
     setIsSignInVisible(true)
     setIsSignUpVisible(false)
-    setHasAuthFadedOut(false)
   }
 
   const handleAddItem = (newItem) => {
@@ -173,12 +166,8 @@ function App() {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        setUser(null) // Set user to null immediately after signing out
-        setShowAuthenticated(false) // Also set showAuthenticated to false
+        setUser(null)
         setIsSigningOut(true)
-        setTimeout(() => {
-          setIsSignInVisible(true)
-        }, duration)
       })
       .catch((error) => {
         // Handle sign out error
@@ -197,6 +186,11 @@ function App() {
       }, duration)
     }
   }, [isSigningOut, user, duration])
+
+  const fadeTimeout = {
+    enter: duration,
+    exit: duration,
+  }
 
   return (
     <div className={classes.centerContent}>
@@ -251,15 +245,17 @@ function App() {
           </Fade>
           <Fade
             in={!!user && !isSigningOut && showAuthenticated}
-            timeout={duration}
+            timeout={fadeTimeout}
             unmountOnExit
           >
             <div className={classes.authComponent}>
               <>
                 {isUserLoaded && user && showAuthenticated && (
-                  <Typography variant="h1" className={classes.welcomeMessage}>
-                    Welcome, {user.email}
-                  </Typography>
+                  <Fade in={true} timeout={fadeTimeout}>
+                    <Typography variant="h1" className={classes.welcomeMessage}>
+                      Welcome, {user.email}
+                    </Typography>
+                  </Fade>
                 )}
                 <AddItemForm onAddItem={handleAddItem} />
                 <List
