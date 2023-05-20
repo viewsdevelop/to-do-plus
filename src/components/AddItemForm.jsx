@@ -56,7 +56,7 @@ function AddItemForm(props) {
 
   return (
     <div className={classes.root}>
-      <h2>Add New Task</h2>
+      <h2>Your List</h2>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
           className={classes.textField}
