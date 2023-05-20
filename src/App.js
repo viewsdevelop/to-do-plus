@@ -157,7 +157,7 @@ function App() {
     handleShowSignIn()
   }
 
-  const duration = 350
+  const duration = 250
   const classes = useStyles()
 
   return (
