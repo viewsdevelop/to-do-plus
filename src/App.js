@@ -1,9 +1,12 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
+// Material UI
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import Fade from '@material-ui/core/Fade'
 
 // Components
 import List from './components/List'
@@ -83,14 +86,20 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '1.2em',
     },
   },
+  authContainer: {
+    position: 'relative',
+    minHeight: '250px', // set this according to your needs
+  },
+  authComponent: {
+    position: 'absolute',
+    width: '100%',
+  },
 }))
 
 function App() {
   const [items, setItems] = useState([])
   const [user, setUser] = useState(null)
   const [isSignInVisible, setIsSignInVisible] = useState(false)
-
-  const classes = useStyles()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
@@ -148,6 +157,9 @@ function App() {
     handleShowSignIn()
   }
 
+  const duration = 350
+  const classes = useStyles()
+
   return (
     <div className={classes.centerContent}>
       <div className={classes.hero}>
@@ -181,11 +193,18 @@ function App() {
       </div>
       <div className={classes.cardContainer}>
         {!user ? (
-          isSignInVisible ? (
-            <SignIn />
-          ) : (
-            <SignUp />
-          )
+          <div className={classes.authContainer}>
+            <Fade in={isSignInVisible} timeout={duration} unmountOnExit>
+              <div className={classes.authComponent}>
+                <SignIn />
+              </div>
+            </Fade>
+            <Fade in={!isSignInVisible} timeout={duration} unmountOnExit>
+              <div className={classes.authComponent}>
+                <SignUp />
+              </div>
+            </Fade>
+          </div>
         ) : (
           <>
             <Typography variant="h1" className={classes.welcomeMessage}>
