@@ -14,16 +14,19 @@ function List({ items, handleRemove, handleSave }) {
   const classes = useStyles()
 
   return (
-    <div className={classes.cardContainer}>
-      {items.map((item) => (
-        <ListItem
-          key={item.id}
-          item={item}
-          onRemove={handleRemove}
-          onSave={handleSave}
-        />
-      ))}
-    </div>
+    <>
+      <h2>Your List</h2>
+      <div className={classes.cardContainer}>
+        {items.map((item) => (
+          <ListItem
+            key={item.id}
+            item={item}
+            onRemove={handleRemove}
+            onSave={handleSave}
+          />
+        ))}
+      </div>
+    </>
   )
 }
 

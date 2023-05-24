@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
 import TextField from '@material-ui/core/TextField'
+import Divider from '@material-ui/core/Divider'
 
 // Components
 import List from './components/List'
@@ -88,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
     width: '50%',
     [theme.breakpoints.down('sm')]: {
-      width: '75%',
+      width: '100%',
     },
   },
   welcomeMessage: {
@@ -272,9 +273,21 @@ function App() {
           >
             <div className={classes.authComponent}>
               <>
+                {isUserLoaded && user && showAuthenticated && (
+                  <Fade in={true} timeout={fadeTimeout}>
+                    <Typography variant="h1" className={classes.welcomeMessage}>
+                      Welcome, {user.email}
+                    </Typography>
+                  </Fade>
+                )}
+
+                <Divider variant="middle" style={{ margin: '20px 0' }} />
+
+                <AddItemForm onAddItem={handleAddItem} />
+
                 {user && (
                   <>
-                    <Typography variant="h6">Search Your Items</Typography>
+                    <Typography variant="h6">Search By Title</Typography>
 
                     <TextField
                       label="Search"
@@ -285,15 +298,6 @@ function App() {
                     />
                   </>
                 )}
-                {isUserLoaded && user && showAuthenticated && (
-                  <Fade in={true} timeout={fadeTimeout}>
-                    <Typography variant="h1" className={classes.welcomeMessage}>
-                      Welcome, {user.email}
-                    </Typography>
-                  </Fade>
-                )}
-
-                <AddItemForm onAddItem={handleAddItem} />
 
                 {filteredItems.length === 0 &&
                   items.length > 0 &&
