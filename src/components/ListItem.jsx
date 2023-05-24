@@ -74,6 +74,11 @@ function ListItem({ item, onRemove, onSave }) {
     }
   }
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault() // Prevent form submission
+    handleSaveClick()
+  }
+
   return (
     <Card
       className={classes.card}
@@ -81,7 +86,7 @@ function ListItem({ item, onRemove, onSave }) {
     >
       <CardContent className={classes.cardContent}>
         {isEditing ? (
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <TextField
               label="Title"
               variant="outlined"
