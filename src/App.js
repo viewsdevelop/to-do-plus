@@ -292,9 +292,11 @@ function App() {
 
                 <AddItemForm onAddItem={handleAddItem} />
 
-                {filteredItems.length === 0 && items.length > 0 && (
-                  <Typography variant="h5">No Results Found!</Typography>
-                )}
+                {filteredItems.length === 0 &&
+                  items.length > 0 &&
+                  searchQuery && (
+                    <Typography variant="h5">No Results Found!</Typography>
+                  )}
 
                 {filteredItems.length > 0 && (
                   <List
