@@ -287,7 +287,7 @@ function App() {
 
                 {user && (
                   <>
-                    <Typography variant="h6">Search By Title</Typography>
+                    <Typography variant="h6">Search By Task</Typography>
 
                     <TextField
                       label="Search"
