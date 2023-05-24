@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
+import TextField from '@material-ui/core/TextField'
 
 // Components
 import List from './components/List'
@@ -83,15 +84,21 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(8),
     },
   },
+  searchInput: {
+    marginBottom: theme.spacing(4),
+    width: '100%',
+  },
   welcomeMessage: {
     fontSize: '1.5em',
+    marginBottom: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       fontSize: '1.2em',
     },
   },
+
   authContainer: {
     position: 'relative',
-    minHeight: '250px', // set this according to your needs
+    minHeight: '250px',
   },
   authComponent: {
     position: 'absolute',
@@ -101,12 +108,14 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const [items, setItems] = useState([])
+  const [filteredItems, setFilteredItems] = useState([])
   const [user, setUser] = useState(null)
   const [isSignInVisible, setIsSignInVisible] = useState(false)
   const [isSignUpVisible, setIsSignUpVisible] = useState(false)
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [showAuthenticated, setShowAuthenticated] = useState(false)
   const [isUserLoaded, setIsUserLoaded] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const duration = 250
   const classes = useStyles()
@@ -170,7 +179,6 @@ function App() {
         setIsSigningOut(true)
       })
       .catch((error) => {
-        // Handle sign out error
         console.log(error)
       })
   }
@@ -187,10 +195,21 @@ function App() {
     }
   }, [isSigningOut, user, duration])
 
+  const handleSearchQueryChange = (event) => {
+    setSearchQuery(event.target.value)
+  }
+
   const fadeTimeout = {
     enter: duration,
     exit: duration,
   }
+
+  useEffect(() => {
+    const filtered = items.filter((item) =>
+      item.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    setFilteredItems(filtered)
+  }, [searchQuery, items])
 
   return (
     <div className={classes.centerContent}>
@@ -250,6 +269,19 @@ function App() {
           >
             <div className={classes.authComponent}>
               <>
+                {user && (
+                  <>
+                    <Typography variant="h6">Search Your Items</Typography>
+
+                    <TextField
+                      label="Search"
+                      variant="outlined"
+                      value={searchQuery}
+                      onChange={handleSearchQueryChange}
+                      className={classes.searchInput}
+                    />
+                  </>
+                )}
                 {isUserLoaded && user && showAuthenticated && (
                   <Fade in={true} timeout={fadeTimeout}>
                     <Typography variant="h1" className={classes.welcomeMessage}>
@@ -257,12 +289,20 @@ function App() {
                     </Typography>
                   </Fade>
                 )}
+
                 <AddItemForm onAddItem={handleAddItem} />
-                <List
-                  items={items}
-                  handleRemove={handleRemove}
-                  handleSave={handleSave}
-                />
+
+                {filteredItems.length === 0 && items.length > 0 && (
+                  <Typography variant="h5">No Results Found!</Typography>
+                )}
+
+                {filteredItems.length > 0 && (
+                  <List
+                    items={filteredItems}
+                    handleRemove={handleRemove}
+                    handleSave={handleSave}
+                  />
+                )}
               </>
             </div>
           </Fade>
