@@ -86,7 +86,10 @@ const useStyles = makeStyles((theme) => ({
   },
   searchInput: {
     marginBottom: theme.spacing(4),
-    width: '100%',
+    width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      width: '75%',
+    },
   },
   welcomeMessage: {
     fontSize: '1.5em',
