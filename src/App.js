@@ -177,10 +177,10 @@ function App() {
   }
 
   const handleSignOut = () => {
+    setIsSigningOut(true)
     signOut(auth)
       .then(() => {
         setUser(null)
-        setIsSigningOut(true)
       })
       .catch((error) => {
         console.log(error)
@@ -201,6 +201,10 @@ function App() {
 
   const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value)
+  }
+
+  const handleFadeOut = () => {
+    setIsSigningOut(false)
   }
 
   const fadeTimeout = {
@@ -249,27 +253,21 @@ function App() {
       <div className={classes.cardContainer}>
         <div className={classes.authContainer}>
           <Fade
-            in={!user && !isSigningOut && isSignInVisible}
+            in={!user && !isSigningOut && (isSignInVisible || isSignUpVisible)}
             timeout={duration}
             unmountOnExit
+            onExited={handleFadeOut}
           >
             <div className={classes.authComponent}>
-              <SignIn />
-            </div>
-          </Fade>
-          <Fade
-            in={!user && !isSigningOut && isSignUpVisible}
-            timeout={duration}
-            unmountOnExit
-          >
-            <div className={classes.authComponent}>
-              <SignUp />
+              {isSignInVisible && <SignIn />}
+              {isSignUpVisible && <SignUp />}
             </div>
           </Fade>
           <Fade
             in={!!user && !isSigningOut && showAuthenticated}
             timeout={fadeTimeout}
             unmountOnExit
+            onExited={handleFadeOut}
           >
             <div className={classes.authComponent}>
               <>
@@ -283,7 +281,9 @@ function App() {
 
                 <Divider variant="middle" style={{ margin: '20px 0' }} />
 
-                <AddItemForm onAddItem={handleAddItem} />
+                <Fade in={true} timeout={fadeTimeout}>
+                  <AddItemForm onAddItem={handleAddItem} />
+                </Fade>
 
                 {user && (
                   <>
