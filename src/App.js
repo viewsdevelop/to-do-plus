@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
-import TextField from '@material-ui/core/TextField'
 import Divider from '@material-ui/core/Divider'
 
 // Components
@@ -15,6 +14,7 @@ import List from './components/List'
 import AddItemForm from './components/AddItemForm'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
+import SearchBar from './components/SearchBar'
 
 // Firebase
 import { initializeApp } from 'firebase/app'
@@ -286,17 +286,11 @@ function App() {
                 </Fade>
 
                 {user && (
-                  <>
-                    <Typography variant="h6">Search By Task</Typography>
-
-                    <TextField
-                      label="Search"
-                      variant="outlined"
-                      value={searchQuery}
-                      onChange={handleSearchQueryChange}
-                      className={classes.searchInput}
-                    />
-                  </>
+                  <SearchBar
+                    searchQuery={searchQuery}
+                    handleSearchQueryChange={handleSearchQueryChange}
+                    classes={classes}
+                  />
                 )}
 
                 {filteredItems.length === 0 &&
