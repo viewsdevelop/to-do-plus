@@ -24,6 +24,13 @@ import firebaseConfig from './firebaseConfig'
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
+const APP_STATES = {
+  SIGNED_OUT: 'SIGNED_OUT',
+  SIGNING_IN: 'SIGNING_IN',
+  SIGNED_IN: 'SIGNED_IN',
+  SIGNING_OUT: 'SIGNING_OUT',
+}
+
 const useStyles = makeStyles((theme) => ({
   hero: {
     display: 'flex',
@@ -115,13 +122,20 @@ function App() {
   const [filteredItems, setFilteredItems] = useState([])
   const [user, setUser] = useState(null)
   const [isSignInVisible, setIsSignInVisible] = useState(false)
-  const [isSignUpVisible, setIsSignUpVisible] = useState(false)
+  const [isSignUpVisible, setIsSignUpVisible] = useState(true)
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [showAuthenticated, setShowAuthenticated] = useState(false)
   const [isUserLoaded, setIsUserLoaded] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
 
   const duration = 250
+
+  const fadeTimeout = {
+    enter: duration,
+    exit: duration,
+  }
+
   const classes = useStyles()
 
   useEffect(() => {
@@ -130,16 +144,12 @@ function App() {
         const { displayName, uid, email } = userAuth
         setUser({ displayName, uid, email })
         setIsUserLoaded(true)
-        setIsSignInVisible(false)
-        setIsSignUpVisible(false)
-        setTimeout(() => {
-          setShowAuthenticated(true)
-        }, duration)
+        setShowAuthenticated(true)
+        setAppState(APP_STATES.SIGNED_IN)
       } else {
         setUser(null)
         setIsUserLoaded(true)
-        setShowAuthenticated(false)
-        setIsSignInVisible(true)
+        setAppState(APP_STATES.SIGNED_OUT)
       }
     })
 
@@ -177,7 +187,7 @@ function App() {
   }
 
   const handleSignOut = () => {
-    setIsSigningOut(true)
+    setAppState(APP_STATES.SIGNING_OUT)
     signOut(auth)
       .then(() => {
         setUser(null)
@@ -205,11 +215,6 @@ function App() {
 
   const handleFadeOut = () => {
     setIsSigningOut(false)
-  }
-
-  const fadeTimeout = {
-    enter: duration,
-    exit: duration,
   }
 
   useEffect(() => {
@@ -253,7 +258,10 @@ function App() {
       <div className={classes.cardContainer}>
         <div className={classes.authContainer}>
           <Fade
-            in={!user && !isSigningOut && (isSignInVisible || isSignUpVisible)}
+            in={
+              appState === APP_STATES.SIGNING_IN ||
+              appState === APP_STATES.SIGNED_OUT
+            }
             timeout={duration}
             unmountOnExit
             onExited={handleFadeOut}
@@ -264,10 +272,10 @@ function App() {
             </div>
           </Fade>
           <Fade
-            in={!!user && !isSigningOut && showAuthenticated}
+            in={appState === APP_STATES.SIGNED_IN}
             timeout={fadeTimeout}
             unmountOnExit
-            onExited={handleFadeOut}
+            onExited={() => setAppState(APP_STATES.SIGNING_IN)}
           >
             <div className={classes.authComponent}>
               <>
@@ -286,11 +294,13 @@ function App() {
                 </Fade>
 
                 {user && (
-                  <SearchBar
-                    searchQuery={searchQuery}
-                    handleSearchQueryChange={handleSearchQueryChange}
-                    classes={classes}
-                  />
+                  <Fade in={true} timeout={fadeTimeout}>
+                    <SearchBar
+                      searchQuery={searchQuery}
+                      handleSearchQueryChange={handleSearchQueryChange}
+                      classes={classes}
+                    />
+                  </Fade>
                 )}
 
                 {filteredItems.length === 0 &&
