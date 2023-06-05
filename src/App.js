@@ -183,8 +183,9 @@ function App() {
     signOut(auth)
       .then(() => {
         setUser(null)
+        setAppState(APP_STATES.SIGNED_OUT)
         setTimeout(() => {
-          setAppState(APP_STATES.SIGNED_OUT)
+          setIsSigningOut(false)
           setShowSigningOutMessage(false)
         }, duration)
       })
