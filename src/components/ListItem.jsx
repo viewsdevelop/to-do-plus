@@ -6,17 +6,34 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   card: {
     marginBottom: '10px',
-    backgroundColor: '#F0F0F0',
-    width: '100%',
+    backgroundColor: '#fef5ab',
+    width: '250px',
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: '10px',
+    boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      width: '30px',
+      height: '30px',
+      backgroundColor: '#FFEE58',
+      transform: 'translate(50%, -50%) rotate(45deg)',
+      borderTopLeftRadius: '5px',
+      boxShadow: '-2px 2px 5px rgba(0, 0, 0, 0.3)',
+    },
   },
   cardContent: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    padding: theme.spacing(2),
   },
   task: {
     marginBottom: '5px',
@@ -27,7 +44,12 @@ const useStyles = makeStyles({
   button: {
     margin: '5px',
   },
-})
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}))
 
 function ListItem({ item, onRemove, onSave }) {
   const classes = useStyles()
@@ -76,96 +98,102 @@ function ListItem({ item, onRemove, onSave }) {
   }
 
   const handleFormSubmit = (e) => {
-    e.preventDefault() // Prevent form submission
+    e.preventDefault()
     handleSaveClick()
   }
 
   return (
-    <Card
-      className={classes.card}
-      style={{ display: isVisible ? 'block' : 'none' }}
-    >
-      <CardContent className={classes.cardContent}>
-        {isEditing ? (
-          <form onSubmit={handleFormSubmit}>
-            <TextField
-              label="Title"
-              variant="outlined"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              fullWidth
-              margin="normal"
-              placeholder="Enter a title"
-              error={titleError}
-              helperText={titleError ? 'Title is required' : ''}
-            />
-            <TextField
-              label="Description"
-              variant="outlined"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              fullWidth
-              margin="normal"
-              placeholder="Enter a description"
-              multiline
-              rows={4}
-              error={descriptionError}
-              helperText={descriptionError ? 'Description is required' : ''}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={handleSaveClick}
-            >
-              Save
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.button}
-              onClick={handleCancelClick}
-            >
-              Cancel
-            </Button>
-          </form>
-        ) : (
-          <>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                marginBottom: '10px',
-              }}
-            >
-              <Typography variant="h6" component="h2" className={classes.task}>
-                {item.title}
-              </Typography>
-              <Typography variant="body1" className={classes.description}>
-                {item.description}
-              </Typography>
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={handleEditClick}
-            >
-              Edit ✏️
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.button}
-              onClick={handleRemoveClick}
-            >
-              Complete ✅
-            </Button>
-          </>
-        )}
-      </CardContent>
-    </Card>
+    <div className={classes.container}>
+      <Card
+        className={classes.card}
+        style={{ display: isVisible ? 'block' : 'none' }}
+      >
+        <CardContent className={classes.cardContent}>
+          {isEditing ? (
+            <form onSubmit={handleFormSubmit}>
+              <TextField
+                label="Title"
+                variant="outlined"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                fullWidth
+                margin="normal"
+                placeholder="Enter a title"
+                error={titleError}
+                helperText={titleError ? 'Title is required' : ''}
+              />
+              <TextField
+                label="Description"
+                variant="outlined"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                fullWidth
+                margin="normal"
+                placeholder="Enter a description"
+                multiline
+                rows={4}
+                error={descriptionError}
+                helperText={descriptionError ? 'Description is required' : ''}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={handleSaveClick}
+              >
+                Save
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+                onClick={handleCancelClick}
+              >
+                Cancel
+              </Button>
+            </form>
+          ) : (
+            <>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  marginBottom: '10px',
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="h2"
+                  className={classes.task}
+                >
+                  {item.title}
+                </Typography>
+                <Typography variant="body1" className={classes.description}>
+                  {item.description}
+                </Typography>
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={handleEditClick}
+              >
+                Edit ✏️
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={handleRemoveClick}
+              >
+                Complete ✅
+              </Button>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   )
 }
 
