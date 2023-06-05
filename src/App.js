@@ -328,7 +328,7 @@ function App() {
         onClose={handleCancelSignOut}
         className={classes.modal}
       >
-        <Fade in={showConfirmationModal}>
+        <Fade in={showConfirmationModal} timeout={fadeTimeout}>
           <div className={classes.modalContent}>
             <Typography variant="h5" className={classes.modalMessage}>
               Are you sure you want to sign out?
