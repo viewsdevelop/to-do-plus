@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     top: '75px',
     zIndex: 99,
     backgroundColor: '#FAFAFA',
-    padding: theme.spacing(5, 0, 0),
+    padding: theme.spacing(2, 0, 0),
     maxWidth: '110%',
     marginLeft: '-5%',
     marginRight: '-5%',
