@@ -113,8 +113,15 @@ const useStyles = makeStyles((theme) => ({
   welcomeMessage: {
     fontSize: '1.5em',
     marginBottom: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
+    '@media (max-width: 480px)': {
       fontSize: '1.2em',
+      position: 'fixed',
+      top: '90px',
+      left: 0,
+      right: 0,
+      zIndex: 99,
+      backgroundColor: '#F0F0F0',
+      padding: '20px',
     },
   },
 
