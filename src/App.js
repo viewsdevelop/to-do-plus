@@ -35,6 +35,7 @@ const APP_STATES = {
 const useStyles = makeStyles((theme) => ({
   appRoot: {
     height: '100vh',
+    overflowY: 'auto',
   },
   hero: {
     position: 'fixed',
@@ -250,11 +251,18 @@ function App() {
     handleShowSignIn()
   }
 
+  // useEffect hooks
   useEffect(() => {
     if (isSigningOut && !user) {
       setIsSigningOut(false)
     }
   }, [isSigningOut, user])
+
+  useEffect(() => {
+    return () => {
+      document.documentElement.style.overflow = 'auto'
+    }
+  }, [])
 
   // Other components and JSX
   const UnauthenticatedApp = () => (
