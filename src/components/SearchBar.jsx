@@ -1,20 +1,16 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
 
-const SearchBar = ({ searchQuery, handleSearchQueryChange, classes }) => {
+function SearchBar({ searchQuery, handleSearchQueryChange, classes }) {
   return (
-    <>
-      <Typography variant="h6">Search By Task</Typography>
-
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={searchQuery}
-        onChange={handleSearchQueryChange}
-        className={classes.searchInput}
-      />
-    </>
+    <TextField
+      label="Search"
+      variant="outlined"
+      className={classes.searchInput}
+      value={searchQuery}
+      onChange={handleSearchQueryChange}
+      fullWidth
+    />
   )
 }
 

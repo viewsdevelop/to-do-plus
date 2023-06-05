@@ -7,14 +7,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
-import Divider from '@material-ui/core/Divider'
 
 // Components
-import List from './components/List'
-import AddItemForm from './components/AddItemForm'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
-import SearchBar from './components/SearchBar'
+import AuthenticatedApp from './components/AuthenticatedApp'
 
 // Firebase
 import { initializeApp } from 'firebase/app'
@@ -28,7 +25,7 @@ const APP_STATES = {
   SIGNED_OUT: 'SIGNED_OUT',
   SIGNING_IN: 'SIGNING_IN',
   SIGNED_IN: 'SIGNED_IN',
-  SIGNING_OUT: 'SIGNING_OUT',
+  LOGGING_OUT: 'LOGGING_OUT',
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -118,15 +115,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function App() {
-  const [items, setItems] = useState([])
-  const [filteredItems, setFilteredItems] = useState([])
   const [user, setUser] = useState(null)
   const [isSignInVisible, setIsSignInVisible] = useState(false)
   const [isSignUpVisible, setIsSignUpVisible] = useState(true)
   const [isSigningOut, setIsSigningOut] = useState(false)
-  const [showAuthenticated, setShowAuthenticated] = useState(false)
-  const [isUserLoaded, setIsUserLoaded] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
 
   const duration = 250
@@ -143,12 +135,9 @@ function App() {
       if (userAuth) {
         const { displayName, uid, email } = userAuth
         setUser({ displayName, uid, email })
-        setIsUserLoaded(true)
-        setShowAuthenticated(true)
         setAppState(APP_STATES.SIGNED_IN)
       } else {
         setUser(null)
-        setIsUserLoaded(true)
         setAppState(APP_STATES.SIGNED_OUT)
       }
     })
@@ -166,31 +155,14 @@ function App() {
     setIsSignUpVisible(false)
   }
 
-  const handleAddItem = (newItem) => {
-    const newItemWithId = { ...newItem, id: uuidv4() }
-    setItems([...items, newItemWithId])
-  }
-
-  const handleRemove = (id) => {
-    setItems(items.filter((item) => item.id !== id))
-  }
-
-  const handleSave = (updatedItem) => {
-    setItems((prevItems) => {
-      return prevItems.map((item) => {
-        if (item.id === updatedItem.id) {
-          return updatedItem
-        }
-        return item
-      })
-    })
-  }
-
   const handleSignOut = () => {
-    setAppState(APP_STATES.SIGNING_OUT)
+    setAppState(APP_STATES.LOGGING_OUT)
     signOut(auth)
       .then(() => {
         setUser(null)
+        setTimeout(() => {
+          setAppState(APP_STATES.SIGNED_OUT)
+        }, duration)
       })
       .catch((error) => {
         console.log(error)
@@ -209,20 +181,20 @@ function App() {
     }
   }, [isSigningOut, user, duration])
 
-  const handleSearchQueryChange = (event) => {
-    setSearchQuery(event.target.value)
-  }
-
-  const handleFadeOut = () => {
-    setIsSigningOut(false)
-  }
-
-  useEffect(() => {
-    const filtered = items.filter((item) =>
-      item.title.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    setFilteredItems(filtered)
-  }, [searchQuery, items])
+  const UnauthenticatedApp = () => (
+    <Fade
+      in={
+        appState === APP_STATES.SIGNING_IN || appState === APP_STATES.SIGNED_OUT
+      }
+      timeout={fadeTimeout}
+      unmountOnExit
+    >
+      <div className={classes.authComponent}>
+        {isSignInVisible && <SignIn />}
+        {isSignUpVisible && <SignUp />}
+      </div>
+    </Fade>
+  )
 
   return (
     <div className={classes.centerContent}>
@@ -259,65 +231,16 @@ function App() {
         <div className={classes.authContainer}>
           <Fade
             in={
-              appState === APP_STATES.SIGNING_IN ||
-              appState === APP_STATES.SIGNED_OUT
+              appState !== APP_STATES.SIGNING_IN &&
+              appState !== APP_STATES.SIGNED_OUT
             }
-            timeout={duration}
-            unmountOnExit
-            onExited={handleFadeOut}
-          >
-            <div className={classes.authComponent}>
-              {isSignInVisible && <SignIn />}
-              {isSignUpVisible && <SignUp />}
-            </div>
-          </Fade>
-          <Fade
-            in={appState === APP_STATES.SIGNED_IN}
             timeout={fadeTimeout}
-            unmountOnExit
-            onExited={() => setAppState(APP_STATES.SIGNING_IN)}
           >
-            <div className={classes.authComponent}>
-              <>
-                {isUserLoaded && user && showAuthenticated && (
-                  <Fade in={true} timeout={fadeTimeout}>
-                    <Typography variant="h1" className={classes.welcomeMessage}>
-                      Welcome, {user.email}
-                    </Typography>
-                  </Fade>
-                )}
-
-                <Divider variant="middle" style={{ margin: '20px 0' }} />
-
-                <Fade in={true} timeout={fadeTimeout}>
-                  <AddItemForm onAddItem={handleAddItem} />
-                </Fade>
-
-                {user && (
-                  <Fade in={true} timeout={fadeTimeout}>
-                    <SearchBar
-                      searchQuery={searchQuery}
-                      handleSearchQueryChange={handleSearchQueryChange}
-                      classes={classes}
-                    />
-                  </Fade>
-                )}
-
-                {filteredItems.length === 0 &&
-                  items.length > 0 &&
-                  searchQuery && (
-                    <Typography variant="h5">No Results Found!</Typography>
-                  )}
-
-                {filteredItems.length > 0 && (
-                  <List
-                    items={filteredItems}
-                    handleRemove={handleRemove}
-                    handleSave={handleSave}
-                  />
-                )}
-              </>
-            </div>
+            {user ? (
+              <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
+            ) : (
+              <UnauthenticatedApp />
+            )}
           </Fade>
         </div>
       </div>
