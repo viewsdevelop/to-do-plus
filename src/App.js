@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
+import { Modal } from '@material-ui/core'
 
 // Animations
 import { FadeLoader } from 'react-spinners'
@@ -133,6 +134,30 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '20px',
     },
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '80%',
+    margin: 'auto',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: '4px',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(4),
+    outline: 'none',
+    textAlign: 'center',
+  },
+  modalMessage: {
+    marginBottom: theme.spacing(2),
+  },
+  modalActions: {
+    marginTop: theme.spacing(4),
+    display: 'flex',
+    justifyContent: 'center',
+    gap: theme.spacing(2),
+  },
 }))
 
 function App() {
@@ -142,6 +167,7 @@ function App() {
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
   const [showSigningOutMessage, setShowSigningOutMessage] = useState(false)
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const duration = 500
 
@@ -178,6 +204,11 @@ function App() {
   }
 
   const handleSignOut = () => {
+    setShowConfirmationModal(true)
+  }
+
+  const handleConfirmSignOut = () => {
+    setShowConfirmationModal(false)
     setAppState(APP_STATES.LOGGING_OUT)
     setIsSigningOut(true)
     setShowSigningOutMessage(true)
@@ -193,6 +224,10 @@ function App() {
       .catch((error) => {
         console.log(error)
       })
+  }
+
+  const handleCancelSignOut = () => {
+    setShowConfirmationModal(false)
   }
 
   const handleLogInButtonClick = () => {
@@ -288,6 +323,35 @@ function App() {
           </Fade>
         </div>
       </div>
+      <Modal
+        open={showConfirmationModal}
+        onClose={handleCancelSignOut}
+        className={classes.modal}
+      >
+        <Fade in={showConfirmationModal}>
+          <div className={classes.modalContent}>
+            <Typography variant="h5" className={classes.modalMessage}>
+              Are you sure you want to sign out?
+            </Typography>
+            <div className={classes.modalActions}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleConfirmSignOut}
+              >
+                Sign Out
+              </Button>
+              <Button
+                variant="contained"
+                color="default"
+                onClick={handleCancelSignOut}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </Fade>
+      </Modal>
     </div>
   )
 }
