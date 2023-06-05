@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
+    position: 'relative',
   },
   logOutButton: {
     marginRight: '20px',
@@ -115,10 +116,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   signingOutContainer: {
-    position: 'fixed',
-    top: '50%',
+    position: 'absolute',
+    top: 'calc(50%)',
     left: '50%',
-    transform: 'translate(-50%, -50%)',
+    transform: 'translateX(-50%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
