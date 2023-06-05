@@ -2,12 +2,7 @@ import './App.css'
 import React, { useState, useEffect } from 'react'
 
 // Material UI
-import {
-  makeStyles,
-  Modal,
-  CssBaseline,
-  useMediaQuery,
-} from '@material-ui/core'
+import { makeStyles, Modal, CssBaseline } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
@@ -113,15 +108,8 @@ const useStyles = makeStyles((theme) => ({
   welcomeMessage: {
     fontSize: '1.5em',
     marginBottom: theme.spacing(2),
-    '@media (max-width: 480px)': {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '1.2em',
-      position: 'fixed',
-      top: '90px',
-      left: 0,
-      right: 0,
-      zIndex: 99,
-      backgroundColor: '#F0F0F0',
-      padding: '20px',
     },
   },
 
@@ -130,19 +118,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '250px',
   },
   authComponent: {
-    position: 'fixed',
-    top: '35%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    marginTop: '100px',
-    width: '75%',
-
-    '@media (max-width: 480px)': {
-      top: '40%',
-      transform: 'translate(-50%, -50%)',
-      marginTop: 0,
-      width: '75%',
-    },
+    position: 'absolute',
+    width: '100%',
   },
   signingOutContainer: {
     position: 'absolute',
