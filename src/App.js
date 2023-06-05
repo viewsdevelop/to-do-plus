@@ -1,6 +1,5 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles'
@@ -125,7 +124,7 @@ function App() {
 
   const fadeTimeout = {
     enter: duration,
-    exit: duration,
+    exit: duration - 250,
   }
 
   const classes = useStyles()
