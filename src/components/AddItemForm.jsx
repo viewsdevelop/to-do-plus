@@ -9,7 +9,27 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     margin: theme.spacing(2),
+    backgroundColor: '#fef5ab',
+    padding: theme.spacing(2),
+    borderRadius: '10px',
+    boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
+    position: 'relative',
+    overflow: 'hidden',
+    width: '250px',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      width: '30px',
+      height: '30px',
+      backgroundColor: '#FFEE58',
+      transform: 'translate(50%, -50%) rotate(45deg)',
+      borderTopLeftRadius: '5px',
+      boxShadow: '-2px 2px 5px rgba(0, 0, 0, 0.3)',
+    },
   },
   form: {
     display: 'flex',
@@ -20,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
   textField: {
     marginBottom: theme.spacing(1),
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }))
 
@@ -56,34 +81,36 @@ function AddItemForm(props) {
   }
 
   return (
-    <div className={classes.root}>
-      <Typography variant="h6">Add New Item</Typography>
+    <div className={classes.container}>
+      <div className={classes.root}>
+        <Typography variant="h6">To Do</Typography>
 
-      <form className={classes.form} onSubmit={handleSubmit}>
-        <TextField
-          className={classes.textField}
-          label="Task"
-          variant="outlined"
-          value={title}
-          onChange={handleTitleChange}
-          error={titleError}
-          helperText={titleError ? 'Title is required' : ''}
-        />
-        {titleError && <div className="error">{titleError}</div>}
-        <TextField
-          className={classes.textField}
-          label="Description"
-          variant="outlined"
-          value={description}
-          onChange={handleDescriptionChange}
-          error={descriptionError}
-          helperText={descriptionError ? 'Description is required' : ''}
-        />
-        {descriptionError && <div className="error">{descriptionError}</div>}
-        <Button type="submit" variant="contained" color="primary">
-          Add Task
-        </Button>
-      </form>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <TextField
+            className={classes.textField}
+            label="Task"
+            variant="outlined"
+            value={title}
+            onChange={handleTitleChange}
+            error={titleError}
+            helperText={titleError ? 'Title is required' : ''}
+          />
+          {titleError && <div className="error">{titleError}</div>}
+          <TextField
+            className={classes.textField}
+            label="Description"
+            variant="outlined"
+            value={description}
+            onChange={handleDescriptionChange}
+            error={descriptionError}
+            helperText={descriptionError ? 'Description is required' : ''}
+          />
+          {descriptionError && <div className="error">{descriptionError}</div>}
+          <Button type="submit" variant="contained" color="primary">
+            Add
+          </Button>
+        </form>
+      </div>
     </div>
   )
 }
