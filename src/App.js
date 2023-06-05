@@ -158,8 +158,11 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(2),
   },
   appRoot: {
-    overflow: 'hidden',
     height: '100vh',
+  },
+  contentContainer: {
+    overflowY: 'auto',
+    maxHeight: 'calc(100vh - 100px)',
   },
 }))
 
@@ -328,7 +331,9 @@ function App() {
               }}
             >
               {user ? (
-                <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
+                <div className={classes.contentContainer}>
+                  <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
+                </div>
               ) : (
                 <UnauthenticatedApp />
               )}
