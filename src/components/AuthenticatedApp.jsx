@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   searchBar: {
     marginBottom: theme.spacing(5),
     width: '100%',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: theme.spacing(2),
+    },
   },
   searchResultsWrapper: {
     marginTop: '20px',
@@ -31,11 +34,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     minHeight: '100%',
     flexDirection: 'column',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(2),
+    },
   },
   addNewText: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     fontWeight: 300,
     opacity: 0.7,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(2),
+    },
   },
 }))
 
