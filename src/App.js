@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
 import { Modal } from '@material-ui/core'
+import { CssBaseline } from '@material-ui/core' // Add this line to import CssBaseline
 
 // Animations
 import { FadeLoader } from 'react-spinners'
@@ -158,6 +159,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     gap: theme.spacing(2),
   },
+  appRoot: {
+    overflow: 'hidden',
+    height: '100vh',
+  },
 }))
 
 function App() {
@@ -276,88 +281,96 @@ function App() {
   )
 
   return (
-    <div className={classes.centerContent}>
-      <div className={classes.hero}>
-        <Typography
-          variant="h1"
-          className={`${classes.title} ${!user ? classes.clickableTitle : ''}`}
-          onClick={user ? null : handleShowSignUp}
-        >
-          ✅ ToDo+
-        </Typography>
-        {!user && (
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.logOutButton}
-            onClick={handleLogInButtonClick}
+    <>
+      <CssBaseline />
+      <div className={`${classes.centerContent} ${classes.appRoot}`}>
+        <div className={classes.hero}>
+          <Typography
+            variant="h1"
+            className={`${classes.title} ${
+              !user ? classes.clickableTitle : ''
+            }`}
+            onClick={user ? null : handleShowSignUp}
           >
-            Sign In
-          </Button>
-        )}
-        {user && (
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.logOutButton}
-            onClick={handleSignOut}
-          >
-            Sign Out
-          </Button>
-        )}
-      </div>
-      <div className={classes.cardContainer}>
-        <div className={classes.authContainer}>
-          <Fade
-            in={
-              appState !== APP_STATES.SIGNING_IN &&
-              appState !== APP_STATES.SIGNED_OUT
-            }
-            timeout={fadeTimeout}
-            style={{
-              transitionDelay:
-                appState === APP_STATES.SIGNED_OUT ? '500ms' : '0ms',
-              transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
-          >
-            {user ? (
-              <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
-            ) : (
-              <UnauthenticatedApp />
-            )}
-          </Fade>
+            ✅ ToDo+
+          </Typography>
+          {!user && (
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.logOutButton}
+              onClick={handleLogInButtonClick}
+            >
+              Sign In
+            </Button>
+          )}
+          {user && (
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.logOutButton}
+              onClick={handleSignOut}
+            >
+              Sign Out
+            </Button>
+          )}
         </div>
-      </div>
-      <Modal
-        open={showConfirmationModal}
-        onClose={handleCancelSignOut}
-        className={classes.modal}
-      >
-        <Fade in={showConfirmationModal} timeout={confirmationModalFadeTimeout}>
-          <div className={classes.modalContent}>
-            <Typography variant="h5" className={classes.modalMessage}>
-              Are you sure you want to sign out?
-            </Typography>
-            <div className={classes.modalActions}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleConfirmSignOut}
-              >
-                Sign Out
-              </Button>
-              <Button
-                variant="contained"
-                color="default"
-                onClick={handleCancelSignOut}
-              >
-                Cancel
-              </Button>
-            </div>
+        <div className={classes.cardContainer}>
+          <div className={classes.authContainer}>
+            <Fade
+              in={
+                appState !== APP_STATES.SIGNING_IN &&
+                appState !== APP_STATES.SIGNED_OUT
+              }
+              timeout={fadeTimeout}
+              style={{
+                transitionDelay:
+                  appState === APP_STATES.SIGNED_OUT ? '500ms' : '0ms',
+                transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              }}
+            >
+              {user ? (
+                <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
+              ) : (
+                <UnauthenticatedApp />
+              )}
+            </Fade>
           </div>
-        </Fade>
-      </Modal>
-    </div>
+        </div>
+        <Modal
+          open={showConfirmationModal}
+          onClose={handleCancelSignOut}
+          className={classes.modal}
+        >
+          <Fade
+            in={showConfirmationModal}
+            timeout={confirmationModalFadeTimeout}
+          >
+            <div className={classes.modalContent}>
+              <Typography variant="h5" className={classes.modalMessage}>
+                Are you sure you want to sign out?
+              </Typography>
+              <div className={classes.modalActions}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleConfirmSignOut}
+                >
+                  Sign Out
+                </Button>
+                <Button
+                  variant="contained"
+                  color="default"
+                  onClick={handleCancelSignOut}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </Fade>
+        </Modal>
+      </div>
+    </>
   )
 }
 
