@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import CreateIcon from '@material-ui/icons/Create'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
       borderTopLeftRadius: '5px',
       boxShadow: '-2px 2px 5px rgba(0, 0, 0, 0.3)',
     },
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(2),
+  },
+  pencilIcon: {
+    marginRight: theme.spacing(1),
   },
   form: {
     display: 'flex',
@@ -83,12 +92,15 @@ function AddItemForm(props) {
   return (
     <div className={classes.container}>
       <div className={classes.root}>
-        <Typography variant="h6">To Do</Typography>
+        <div className={classes.header}>
+          <CreateIcon className={classes.pencilIcon} />
+          <Typography variant="h6">Add New Task</Typography>
+        </div>
 
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             className={classes.textField}
-            label="Task"
+            label="Title"
             variant="outlined"
             value={title}
             onChange={handleTitleChange}

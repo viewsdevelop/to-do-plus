@@ -15,18 +15,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     borderRadius: '10px',
     boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      width: '30px',
-      height: '30px',
-      backgroundColor: '#FFEE58',
-      transform: 'translate(50%, -50%) rotate(45deg)',
-      borderTopLeftRadius: '5px',
-      boxShadow: '-2px 2px 5px rgba(0, 0, 0, 0.3)',
-    },
   },
   cardContent: {
     display: 'flex',
