@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
     width: '75%',
 
     '@media (max-width: 480px)': {
-      top: '35%',
+      top: '50%',
       transform: 'translate(-50%, -50%)',
       marginTop: 0,
       width: '75%',
