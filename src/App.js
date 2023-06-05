@@ -176,6 +176,11 @@ function App() {
     exit: 250,
   }
 
+  const confirmationModalFadeTimeout = {
+    enter: duration,
+    exit: 0,
+  }
+
   const classes = useStyles()
 
   useEffect(() => {
@@ -328,7 +333,7 @@ function App() {
         onClose={handleCancelSignOut}
         className={classes.modal}
       >
-        <Fade in={showConfirmationModal} timeout={fadeTimeout}>
+        <Fade in={showConfirmationModal} timeout={confirmationModalFadeTimeout}>
           <div className={classes.modalContent}>
             <Typography variant="h5" className={classes.modalMessage}>
               Are you sure you want to sign out?
