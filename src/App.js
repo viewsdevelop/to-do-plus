@@ -142,11 +142,16 @@ function App() {
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
   const [showSigningOutMessage, setShowSigningOutMessage] = useState(false)
 
-  const duration = 1000
+  const duration = 500
 
   const fadeTimeout = {
     enter: duration,
     exit: duration,
+  }
+
+  const fadeTimeoutSigningOut = {
+    enter: 250,
+    exit: 250,
   }
 
   const classes = useStyles()
@@ -208,7 +213,11 @@ function App() {
 
   const UnauthenticatedApp = () => (
     <>
-      <Fade in={showSigningOutMessage} timeout={fadeTimeout} unmountOnExit>
+      <Fade
+        in={showSigningOutMessage}
+        timeout={fadeTimeoutSigningOut}
+        unmountOnExit
+      >
         <div className={classes.signingOutContainer}>
           <Typography className={classes.signingOutMessage}>
             Signing Out...
