@@ -127,10 +127,11 @@ const useStyles = makeStyles((theme) => ({
   },
   signingOutMessage: {
     fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#333',
-    opacity: 0.7,
     marginBottom: theme.spacing(2),
+
+    '@media (max-width: 600px)': {
+      fontSize: '20px',
+    },
   },
 }))
 
