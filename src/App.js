@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     color: '#333',
     textAlign: 'left',
-    marginLeft: '20px',
     cursor: 'default',
   },
   clickableTitle: {
@@ -66,9 +65,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     textAlign: 'center',
     position: 'relative',
-  },
-  logOutButton: {
-    marginRight: '20px',
   },
   cardContainer: {
     marginTop: '100px',
@@ -313,19 +309,13 @@ function App() {
             <Button
               variant="contained"
               color="primary"
-              className={classes.logOutButton}
               onClick={handleLogInButtonClick}
             >
               Sign In
             </Button>
           )}
           {user && (
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.logOutButton}
-              onClick={handleSignOut}
-            >
+            <Button variant="contained" color="primary" onClick={handleSignOut}>
               Sign Out
             </Button>
           )}
