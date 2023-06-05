@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
 
+// Animations
+import { FadeLoader } from 'react-spinners'
+
 // Components
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
@@ -111,6 +114,23 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     width: '100%',
   },
+  signingOutContainer: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  signingOutMessage: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: '#333',
+    opacity: 0.7,
+    marginBottom: theme.spacing(2),
+  },
 }))
 
 function App() {
@@ -119,6 +139,7 @@ function App() {
   const [isSignUpVisible, setIsSignUpVisible] = useState(true)
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
+  const [showSigningOutMessage, setShowSigningOutMessage] = useState(false)
 
   const duration = 500
 
@@ -156,11 +177,14 @@ function App() {
 
   const handleSignOut = () => {
     setAppState(APP_STATES.LOGGING_OUT)
+    setIsSigningOut(true)
+    setShowSigningOutMessage(true)
     signOut(auth)
       .then(() => {
         setUser(null)
         setTimeout(() => {
           setAppState(APP_STATES.SIGNED_OUT)
+          setShowSigningOutMessage(false)
         }, duration)
       })
       .catch((error) => {
@@ -181,18 +205,29 @@ function App() {
   }, [isSigningOut, user, duration])
 
   const UnauthenticatedApp = () => (
-    <Fade
-      in={
-        appState === APP_STATES.SIGNING_IN || appState === APP_STATES.SIGNED_OUT
-      }
-      timeout={fadeTimeout}
-      unmountOnExit
-    >
-      <div className={classes.authComponent}>
-        {isSignInVisible && <SignIn />}
-        {isSignUpVisible && <SignUp />}
-      </div>
-    </Fade>
+    <>
+      <Fade in={showSigningOutMessage} timeout={fadeTimeout} unmountOnExit>
+        <div className={classes.signingOutContainer}>
+          <Typography className={classes.signingOutMessage}>
+            Signing Out...
+          </Typography>
+          <FadeLoader color="#333" loading={showSigningOutMessage} />
+        </div>
+      </Fade>
+      <Fade
+        in={
+          appState === APP_STATES.SIGNING_IN ||
+          (appState === APP_STATES.SIGNED_OUT && !showSigningOutMessage)
+        }
+        timeout={fadeTimeout}
+        unmountOnExit
+      >
+        <div className={classes.authComponent}>
+          {isSignInVisible && <SignIn />}
+          {isSignUpVisible && <SignUp />}
+        </div>
+      </Fade>
+    </>
   )
 
   return (
