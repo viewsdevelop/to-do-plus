@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     top: '75px',
     zIndex: 99,
     backgroundColor: '#FAFAFA',
-    padding: theme.spacing(3, 2, 0),
+    padding: theme.spacing(5, 0, 0),
     maxWidth: '110%',
     marginLeft: '-5%',
     marginRight: '-5%',
@@ -50,9 +50,7 @@ function SearchBar({ searchQuery, handleSearchQueryChange, classes }) {
             </InputAdornment>
           ),
         }}
-      >
-        <div className={styles.label}>Search</div>
-      </TextField>
+      />
     </div>
   )
 }
