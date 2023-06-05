@@ -234,8 +234,12 @@ function App() {
         unmountOnExit
       >
         <div className={classes.authComponent}>
-          {isSignInVisible && <SignIn />}
-          {isSignUpVisible && <SignUp />}
+          {appState === APP_STATES.SIGNED_OUT && !showSigningOutMessage && (
+            <>
+              {isSignInVisible && <SignIn />}
+              {isSignUpVisible && <SignUp />}
+            </>
+          )}
         </div>
       </Fade>
     </>
