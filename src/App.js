@@ -192,7 +192,7 @@ function App() {
         setTimeout(() => {
           setIsSigningOut(false)
           setShowSigningOutMessage(false)
-        }, duration)
+        }, 1000)
       })
       .catch((error) => {
         console.log(error)
