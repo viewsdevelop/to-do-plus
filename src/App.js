@@ -124,7 +124,7 @@ function App() {
 
   const fadeTimeout = {
     enter: duration,
-    exit: duration - 250,
+    exit: duration,
   }
 
   const classes = useStyles()
