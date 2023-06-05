@@ -32,6 +32,9 @@ const APP_STATES = {
 
 const useStyles = makeStyles((theme) => ({
   hero: {
+    position: 'fixed',
+    top: 0,
+    zIndex: 100,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -62,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '20px',
   },
   cardContainer: {
-    marginTop: theme.spacing(4),
+    marginTop: '100px',
     width: '75%',
   },
   cardContent: {
@@ -159,10 +162,6 @@ const useStyles = makeStyles((theme) => ({
   },
   appRoot: {
     height: '100vh',
-  },
-  contentContainer: {
-    overflowY: 'auto',
-    maxHeight: 'calc(100vh - 100px)',
   },
 }))
 
@@ -331,9 +330,7 @@ function App() {
               }}
             >
               {user ? (
-                <div className={classes.contentContainer}>
-                  <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
-                </div>
+                <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
               ) : (
                 <UnauthenticatedApp />
               )}
