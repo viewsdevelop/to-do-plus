@@ -149,11 +149,6 @@ function App() {
     exit: 250,
   }
 
-  const fadeTimeoutSigningOut = {
-    enter: 250,
-    exit: 250,
-  }
-
   const classes = useStyles()
 
   useEffect(() => {
@@ -205,19 +200,13 @@ function App() {
 
   useEffect(() => {
     if (isSigningOut && !user) {
-      setTimeout(() => {
-        setIsSigningOut(false)
-      }, duration)
+      setIsSigningOut(false)
     }
-  }, [isSigningOut, user, duration])
+  }, [isSigningOut, user])
 
   const UnauthenticatedApp = () => (
     <>
-      <Fade
-        in={showSigningOutMessage}
-        timeout={fadeTimeoutSigningOut}
-        unmountOnExit
-      >
+      <Fade in={showSigningOutMessage} timeout={fadeTimeout} unmountOnExit>
         <div className={classes.signingOutContainer}>
           <Typography className={classes.signingOutMessage}>
             Signing Out...
