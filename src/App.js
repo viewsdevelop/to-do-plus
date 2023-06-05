@@ -142,7 +142,7 @@ function App() {
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
   const [showSigningOutMessage, setShowSigningOutMessage] = useState(false)
 
-  const duration = 500
+  const duration = 1000
 
   const fadeTimeout = {
     enter: duration,
