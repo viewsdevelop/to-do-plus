@@ -124,8 +124,8 @@ function App() {
   const duration = 250
 
   const fadeTimeout = {
-    enter: duration,
-    exit: duration,
+    enter: 500,
+    exit: 1000,
   }
 
   const classes = useStyles()
@@ -235,6 +235,11 @@ function App() {
               appState !== APP_STATES.SIGNED_OUT
             }
             timeout={fadeTimeout}
+            style={{
+              transitionDelay:
+                appState === APP_STATES.SIGNED_OUT ? '500ms' : '0ms',
+              transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
           >
             {user ? (
               <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
