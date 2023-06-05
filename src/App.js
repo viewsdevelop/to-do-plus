@@ -146,7 +146,7 @@ function App() {
 
   const fadeTimeout = {
     enter: duration,
-    exit: duration,
+    exit: 250,
   }
 
   const fadeTimeoutSigningOut = {
