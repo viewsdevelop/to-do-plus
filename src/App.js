@@ -121,11 +121,11 @@ function App() {
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
 
-  const duration = 250
+  const duration = 500
 
   const fadeTimeout = {
-    enter: 500,
-    exit: 1000,
+    enter: duration,
+    exit: duration,
   }
 
   const classes = useStyles()
