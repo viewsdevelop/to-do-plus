@@ -173,6 +173,7 @@ function App() {
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
   const [showSigningOutMessage, setShowSigningOutMessage] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [containerHeight, setContainerHeight] = useState(window.innerHeight)
 
   const duration = 500
 
@@ -201,6 +202,18 @@ function App() {
     })
 
     return () => unsubscribe()
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      setContainerHeight(window.innerHeight)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   const handleShowSignUp = () => {
@@ -280,6 +293,12 @@ function App() {
     </>
   )
 
+  const authContainerStyle = {
+    position: 'relative',
+    minHeight: '250px',
+    height: containerHeight,
+  }
+
   return (
     <>
       <CssBaseline />
@@ -316,7 +335,7 @@ function App() {
           )}
         </div>
         <div className={classes.cardContainer}>
-          <div className={classes.authContainer}>
+          <div style={authContainerStyle}>
             <Fade
               in={
                 appState !== APP_STATES.SIGNING_IN &&
