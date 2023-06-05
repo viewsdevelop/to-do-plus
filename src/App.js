@@ -2,7 +2,12 @@ import './App.css'
 import React, { useState, useEffect } from 'react'
 
 // Material UI
-import { makeStyles, Modal, CssBaseline } from '@material-ui/core'
+import {
+  makeStyles,
+  Modal,
+  CssBaseline,
+  useMediaQuery,
+} from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
@@ -31,6 +36,9 @@ const APP_STATES = {
 }
 
 const useStyles = makeStyles((theme) => ({
+  appRoot: {
+    height: '100vh',
+  },
   hero: {
     position: 'fixed',
     top: 0,
@@ -115,8 +123,19 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '250px',
   },
   authComponent: {
-    position: 'absolute',
-    width: '100%',
+    position: 'fixed',
+    top: '35%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    marginTop: '100px',
+    width: '75%',
+
+    '@media (max-width: 480px)': {
+      top: '35%',
+      transform: 'translate(-50%, -50%)',
+      marginTop: 0,
+      width: '75%',
+    },
   },
   signingOutContainer: {
     position: 'absolute',
@@ -160,9 +179,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     gap: theme.spacing(2),
   },
-  appRoot: {
-    height: '100vh',
-  },
 }))
 
 function App() {
@@ -173,7 +189,6 @@ function App() {
   const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
   const [showSigningOutMessage, setShowSigningOutMessage] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const [containerHeight, setContainerHeight] = useState(window.innerHeight)
 
   const duration = 500
 
@@ -202,18 +217,6 @@ function App() {
     })
 
     return () => unsubscribe()
-  }, [])
-
-  useEffect(() => {
-    const handleResize = () => {
-      setContainerHeight(window.innerHeight)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
   }, [])
 
   const handleShowSignUp = () => {
@@ -293,12 +296,6 @@ function App() {
     </>
   )
 
-  const authContainerStyle = {
-    position: 'relative',
-    minHeight: '250px',
-    height: containerHeight,
-  }
-
   return (
     <>
       <CssBaseline />
@@ -335,7 +332,7 @@ function App() {
           )}
         </div>
         <div className={classes.cardContainer}>
-          <div style={authContainerStyle}>
+          <div className={classes.authContainer}>
             <Fade
               in={
                 appState !== APP_STATES.SIGNING_IN &&
