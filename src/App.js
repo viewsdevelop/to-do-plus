@@ -2,12 +2,14 @@ import './App.css'
 import React, { useState, useEffect } from 'react'
 
 // Material UI
-import { makeStyles, Modal, CssBaseline } from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Fade from '@material-ui/core/Fade'
-
-// Animations
+import {
+  makeStyles,
+  Modal,
+  CssBaseline,
+  Typography,
+  Button,
+  Fade,
+} from '@material-ui/core'
 import { FadeLoader } from 'react-spinners'
 
 // Components
@@ -188,6 +190,7 @@ function App() {
 
   const classes = useStyles()
 
+  // Auth state change listener
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
@@ -203,14 +206,17 @@ function App() {
     return () => unsubscribe()
   }, [])
 
+  // Handler functions
   const handleShowSignUp = () => {
     setIsSignInVisible(false)
     setIsSignUpVisible(true)
+    document.documentElement.style.overflow = 'hidden'
   }
 
   const handleShowSignIn = () => {
     setIsSignInVisible(true)
     setIsSignUpVisible(false)
+    document.documentElement.style.overflow = 'hidden'
   }
 
   const handleSignOut = () => {
@@ -250,6 +256,7 @@ function App() {
     }
   }, [isSigningOut, user])
 
+  // Other components and JSX
   const UnauthenticatedApp = () => (
     <>
       <Fade in={showSigningOutMessage} timeout={fadeTimeout} unmountOnExit>
