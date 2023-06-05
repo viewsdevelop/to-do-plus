@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
 import Divider from '@material-ui/core/Divider'
 import { makeStyles } from '@material-ui/core/styles'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 
 import List from './List'
 import AddItemForm from './AddItemForm'
@@ -23,6 +24,18 @@ const useStyles = makeStyles((theme) => ({
   },
   searchResultsWrapper: {
     marginTop: '20px',
+  },
+  addNewContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100%',
+    flexDirection: 'column',
+  },
+  addNewText: {
+    marginTop: theme.spacing(2),
+    fontWeight: 300,
+    opacity: 0.7,
   },
 }))
 
@@ -87,6 +100,15 @@ function AuthenticatedApp({ fadeTimeout, user }) {
               handleRemove={handleRemove}
               handleSave={handleSave}
             />
+          )}
+
+          {items.length === 0 && (
+            <div className={classes.addNewContainer}>
+              <AddCircleOutlineIcon />
+              <Typography variant="h6" className={classes.addNewText}>
+                New Tasks Will Appear Here...
+              </Typography>
+            </div>
           )}
         </div>
       </div>
