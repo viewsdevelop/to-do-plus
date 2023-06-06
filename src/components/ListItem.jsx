@@ -31,13 +31,18 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginTop: theme.spacing(2),
+    width: '100%',
   },
   button: {
+    flex: 1,
     margin: theme.spacing(1),
     padding: theme.spacing(1, 2),
     fontSize: '0.8rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
   container: {
     display: 'flex',
@@ -177,13 +182,6 @@ function ListItem({ item, onRemove, onSave }) {
                   className={classes.button}
                   onClick={handleEditClick}
                 >
-                  <span
-                    role="img"
-                    aria-label="Edit"
-                    style={{ marginRight: '6px' }}
-                  >
-                    ✏️
-                  </span>
                   Edit
                 </Button>
                 <Button
@@ -192,13 +190,6 @@ function ListItem({ item, onRemove, onSave }) {
                   className={classes.button}
                   onClick={handleRemoveClick}
                 >
-                  <span
-                    role="img"
-                    aria-label="Complete"
-                    style={{ marginRight: '6px' }}
-                  >
-                    ✅
-                  </span>
                   Complete
                 </Button>
               </div>
