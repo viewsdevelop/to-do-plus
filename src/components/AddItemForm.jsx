@@ -44,16 +44,22 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing(2),
+    justifyContent: 'space-between',
+    height: '100%',
     marginBottom: theme.spacing(2),
   },
   textField: {
     marginBottom: theme.spacing(1),
   },
+  button: {
+    marginTop: 25,
+    marginBottom: 0,
+  },
   container: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    height: '100%',
   },
 }))
 
@@ -118,7 +124,12 @@ function AddItemForm(props) {
             helperText={descriptionError ? 'Description is required' : ''}
           />
           {descriptionError && <div className="error">{descriptionError}</div>}
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
             Add
           </Button>
         </form>

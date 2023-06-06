@@ -29,8 +29,15 @@ const useStyles = makeStyles((theme) => ({
   description: {
     marginTop: '5px',
   },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing(2),
+  },
   button: {
-    margin: '5px',
+    margin: theme.spacing(1),
+    padding: theme.spacing(1, 2),
+    fontSize: '0.8rem',
   },
   container: {
     display: 'flex',
@@ -123,22 +130,24 @@ function ListItem({ item, onRemove, onSave }) {
                 error={descriptionError}
                 helperText={descriptionError ? 'Description is required' : ''}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={handleSaveClick}
-              >
-                Save
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                onClick={handleCancelClick}
-              >
-                Cancel
-              </Button>
+              <div className={classes.buttonContainer}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleSaveClick}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={handleCancelClick}
+                >
+                  Cancel
+                </Button>
+              </div>
             </form>
           ) : (
             <>
@@ -161,22 +170,38 @@ function ListItem({ item, onRemove, onSave }) {
                   {item.description}
                 </Typography>
               </div>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={handleEditClick}
-              >
-                Edit ✏️
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={handleRemoveClick}
-              >
-                Complete ✅
-              </Button>
+              <div className={classes.buttonContainer}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleEditClick}
+                >
+                  <span
+                    role="img"
+                    aria-label="Edit"
+                    style={{ marginRight: '6px' }}
+                  >
+                    ✏️
+                  </span>
+                  Edit
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleRemoveClick}
+                >
+                  <span
+                    role="img"
+                    aria-label="Complete"
+                    style={{ marginRight: '6px' }}
+                  >
+                    ✅
+                  </span>
+                  Complete
+                </Button>
+              </div>
             </>
           )}
         </CardContent>

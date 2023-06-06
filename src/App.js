@@ -9,8 +9,13 @@ import {
   Typography,
   Button,
   Fade,
+  createMuiTheme,
+  ThemeProvider,
 } from '@material-ui/core'
 import { FadeLoader } from 'react-spinners'
+
+// Assets
+import logo from './assets/logo.png'
 
 // Components
 import SignIn from './components/SignIn'
@@ -49,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '20px',
     width: '100%',
   },
+  logoContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  logo: {
+    height: '48px',
+    width: '48px',
+  },
   title: {
     fontSize: '32px',
     fontWeight: 'bold',
@@ -58,6 +71,20 @@ const useStyles = makeStyles((theme) => ({
   },
   clickableTitle: {
     cursor: 'pointer',
+  },
+  titleContainer: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '20px',
+  },
+  todoText: {
+    fontSize: '46px',
+    fontWeight: 'bold',
+    fontFamily: 'Tsukimi Rounded, sans-serif',
+    margin: '0 10px',
+    lineHeight: '1',
   },
   centerContent: {
     display: 'flex',
@@ -185,6 +212,14 @@ function App() {
     exit: 0,
   }
 
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#20509E',
+      },
+    },
+  })
+
   const classes = useStyles()
 
   // Auth state change listener
@@ -263,12 +298,22 @@ function App() {
   // Other components and JSX
   const UnauthenticatedApp = () => (
     <>
+      <div className={classes.titleContainer}>
+        <span className={classes.todoText}>ToDo+</span>
+      </div>
       <Fade in={showSigningOutMessage} timeout={fadeTimeout} unmountOnExit>
         <div className={classes.signingOutContainer}>
           <Typography className={classes.signingOutMessage}>
             Signing Out...
           </Typography>
-          <FadeLoader color="#333" loading={showSigningOutMessage} />
+          <FadeLoader
+            css={`
+              width: 50px;
+              height: 50px;
+            `}
+            color="#333"
+            loading={showSigningOutMessage}
+          />
         </div>
       </Fade>
       <Fade
@@ -292,7 +337,7 @@ function App() {
   )
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={`${classes.centerContent} ${classes.appRoot}`}>
         <div className={classes.hero}>
@@ -303,7 +348,9 @@ function App() {
             }`}
             onClick={user ? null : handleShowSignUp}
           >
-            ✅ ToDo+
+            <div className={classes.logoContainer}>
+              <img src={logo} alt="ToDo+ Logo" className={classes.logo} />
+            </div>
           </Typography>
           {!user && (
             <Button
@@ -375,7 +422,7 @@ function App() {
           </Fade>
         </Modal>
       </div>
-    </>
+    </ThemeProvider>
   )
 }
 

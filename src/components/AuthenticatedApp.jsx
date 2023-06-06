@@ -13,12 +13,14 @@ import SearchBar from './SearchBar'
 const useStyles = makeStyles((theme) => ({
   welcomeMessage: {
     fontSize: '1.5em',
+    marginTop: theme.spacing(1),
     marginBottom: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       fontSize: '1.2em',
     },
   },
   searchBar: {
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(5),
     width: '100%',
     [theme.breakpoints.down('sm')]: {
