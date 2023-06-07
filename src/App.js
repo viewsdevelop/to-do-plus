@@ -1,9 +1,8 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
 
-// Material UI
+// Material UI /
 import {
-  makeStyles,
   Modal,
   CssBaseline,
   Typography,
@@ -12,7 +11,10 @@ import {
   createMuiTheme,
   ThemeProvider,
 } from '@material-ui/core'
+
+// Animations / Styles
 import { FadeLoader } from 'react-spinners'
+import useStyles from './AppStyles'
 
 // Assets
 import logo from './assets/logo.png'
@@ -37,160 +39,6 @@ const APP_STATES = {
   LOGGING_OUT: 'LOGGING_OUT',
 }
 
-const useStyles = makeStyles((theme) => ({
-  appRoot: {
-    height: '100vh',
-    overflowY: 'auto',
-  },
-  hero: {
-    position: 'fixed',
-    top: 0,
-    zIndex: 100,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#F0F0F0',
-    padding: '20px',
-    marginBottom: '20px',
-    width: '100%',
-  },
-  logoContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  logo: {
-    height: '48px',
-    width: '48px',
-  },
-  title: {
-    fontSize: '32px',
-    fontWeight: 'bold',
-    color: '#333',
-    textAlign: 'left',
-    cursor: 'default',
-  },
-  clickableTitle: {
-    cursor: 'pointer',
-  },
-  titleContainer: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '20px',
-  },
-  todoText: {
-    fontSize: '46px',
-    fontWeight: 'bold',
-    fontFamily: 'Tsukimi Rounded, sans-serif',
-    margin: '0 10px',
-    lineHeight: '1',
-  },
-  centerContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    position: 'relative',
-  },
-  cardContainer: {
-    marginTop: '100px',
-    width: '75%',
-  },
-  cardContent: {
-    padding: theme.spacing(5),
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#F0F0F0',
-  },
-  signInTitle: {
-    fontSize: '36px',
-    fontWeight: 'bold',
-    marginBottom: theme.spacing(2),
-  },
-  signUpTitle: {
-    fontSize: '36px',
-    fontWeight: 'bold',
-    marginBottom: theme.spacing(2),
-  },
-  signInForm: {
-    marginTop: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
-      marginTop: theme.spacing(4),
-    },
-  },
-  signUpForm: {
-    marginTop: theme.spacing(4),
-    [theme.breakpoints.down('sm')]: {
-      marginTop: theme.spacing(8),
-    },
-  },
-  searchInput: {
-    marginBottom: theme.spacing(4),
-    width: '50%',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
-  },
-  welcomeMessage: {
-    fontSize: '1.5em',
-    marginBottom: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '1.2em',
-    },
-  },
-
-  authContainer: {
-    position: 'relative',
-    minHeight: '250px',
-  },
-  authComponent: {
-    position: 'absolute',
-    width: '100%',
-  },
-  signingOutContainer: {
-    position: 'absolute',
-    top: 'calc(50%)',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
-  signingOutMessage: {
-    fontSize: '24px',
-    marginBottom: theme.spacing(2),
-
-    '@media (max-width: 600px)': {
-      fontSize: '20px',
-    },
-  },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '80%',
-    margin: 'auto',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: '4px',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(4),
-    outline: 'none',
-    textAlign: 'center',
-  },
-  modalMessage: {
-    marginBottom: theme.spacing(2),
-  },
-  modalActions: {
-    marginTop: theme.spacing(4),
-    display: 'flex',
-    justifyContent: 'center',
-    gap: theme.spacing(2),
-  },
-}))
-
 function App() {
   const [user, setUser] = useState(null)
   const [isSignInVisible, setIsSignInVisible] = useState(false)
@@ -201,6 +49,7 @@ function App() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const duration = 500
+  const classes = useStyles()
 
   const fadeTimeout = {
     enter: duration,
@@ -219,8 +68,6 @@ function App() {
       },
     },
   })
-
-  const classes = useStyles()
 
   // Auth state change listener
   useEffect(() => {
@@ -306,14 +153,7 @@ function App() {
           <Typography className={classes.signingOutMessage}>
             Signing Out...
           </Typography>
-          <FadeLoader
-            css={`
-              width: 50px;
-              height: 50px;
-            `}
-            color="#333"
-            loading={showSigningOutMessage}
-          />
+          <FadeLoader color="#333" loading={showSigningOutMessage} />
         </div>
       </Fade>
       <Fade
