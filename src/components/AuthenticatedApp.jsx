@@ -1,80 +1,81 @@
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
+// Material UI / Styles
 import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
 import Divider from '@material-ui/core/Divider'
-import { makeStyles } from '@material-ui/core/styles'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import AuthenticatedAppStyles from '../AuthenticatedAppStyles'
 
+// Components
 import List from './List'
 import AddItemForm from './AddItemForm'
 import SearchBar from './SearchBar'
+import App from '../App'
 
-const useStyles = makeStyles((theme) => ({
-  welcomeMessage: {
-    fontSize: '1.5em',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '1.2em',
-    },
-  },
-  searchBar: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(5),
-    width: '100%',
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.spacing(2),
-    },
-  },
-  searchResultsWrapper: {
-    marginTop: '20px',
-  },
-  addNewContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100%',
-    flexDirection: 'column',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: theme.spacing(2),
-    },
-  },
-  addNewText: {
-    marginTop: theme.spacing(1),
-    fontWeight: 300,
-    opacity: 0.7,
-    [theme.breakpoints.down('sm')]: {
-      marginTop: theme.spacing(2),
-    },
-  },
-}))
+// Firebase
+import {
+  getFirestore,
+  collection,
+  doc,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  onSnapshot,
+} from 'firebase/firestore'
 
 function AuthenticatedApp({ fadeTimeout, user }) {
   const [items, setItems] = useState([])
   const [filteredItems, setFilteredItems] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
 
-  const classes = useStyles()
+  const classes = AuthenticatedAppStyles()
 
-  const handleAddItem = (newItem) => {
-    const newItemWithId = { ...newItem, id: uuidv4() }
-    setItems((prevItems) => [...prevItems, newItemWithId])
+  const userItemsCollectionRef =
+    user && collection(getFirestore(App), 'users', user.uid, 'items')
+
+  const handleAddItem = async (newItem) => {
+    if (userItemsCollectionRef) {
+      const newItemWithId = { ...newItem }
+      const docRef = await addDoc(userItemsCollectionRef, newItemWithId)
+      const docId = docRef.id
+      await updateDoc(doc(userItemsCollectionRef, docId), { docId })
+    }
   }
 
-  const handleRemove = (id) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id))
+  const handleRemove = async (docId) => {
+    if (userItemsCollectionRef) {
+      await deleteDoc(doc(userItemsCollectionRef, docId))
+    }
   }
 
-  const handleSave = (updatedItem) => {
-    setItems((prevItems) =>
-      prevItems.map((item) => (item.id === updatedItem.id ? updatedItem : item))
-    )
+  const handleSave = async (updatedItem) => {
+    if (userItemsCollectionRef) {
+      await updateDoc(
+        doc(userItemsCollectionRef, updatedItem.docId),
+        updatedItem
+      )
+    }
   }
 
   const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value)
   }
+
+  useEffect(() => {
+    const unsubscribe =
+      userItemsCollectionRef &&
+      onSnapshot(userItemsCollectionRef, (snapshot) => {
+        const items = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        setItems(items)
+      })
+
+    return () => unsubscribe && unsubscribe()
+  }, [user])
 
   useEffect(() => {
     const filtered = items.filter((item) =>
