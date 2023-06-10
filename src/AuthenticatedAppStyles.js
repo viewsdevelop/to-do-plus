@@ -31,11 +31,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   addNewText: {
+    fontSize: '1.5rem',
+    fontWeight: 400,
     marginTop: theme.spacing(1),
-    fontWeight: 300,
+    marginBottom: theme.spacing(2),
     opacity: 0.7,
     [theme.breakpoints.down('sm')]: {
+      fontSize: '1rem',
+      fontWeight: 300,
       marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(5),
     },
   },
 }))

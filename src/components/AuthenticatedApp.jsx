@@ -117,7 +117,7 @@ function AuthenticatedApp({ fadeTimeout, user }) {
           {items.length === 0 && (
             <div className={classes.addNewContainer}>
               <AddCircleOutlineIcon />
-              <Typography variant="h6" className={classes.addNewText}>
+              <Typography className={classes.addNewText}>
                 New / Saved Tasks Will Appear Here...
               </Typography>
             </div>
