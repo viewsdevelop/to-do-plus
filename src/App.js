@@ -8,7 +8,7 @@ import {
   Typography,
   Button,
   Fade,
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
 } from '@material-ui/core'
 
@@ -61,7 +61,7 @@ function App() {
     exit: 0,
   }
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       primary: {
         main: '#20509E',
