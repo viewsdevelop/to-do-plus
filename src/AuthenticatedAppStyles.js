@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '20px',
     marginBottom: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.spacing(12),
+      marginBottom: theme.spacing(15),
     },
   },
   addNewContainer: {

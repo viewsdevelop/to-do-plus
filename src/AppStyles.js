@@ -4,9 +4,6 @@ const useStyles = makeStyles((theme) => ({
   appRoot: {
     height: '100vh',
     overflowY: 'auto',
-    [theme.breakpoints.down('xs')]: {
-      height: '90vh',
-    },
   },
   authComponent: {
     position: 'absolute',
@@ -19,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   cardContainer: {
     marginTop: '100px',
     width: '75%',
+    marginBottom: theme.spacing(10),
   },
   cardContent: {
     padding: theme.spacing(5),
