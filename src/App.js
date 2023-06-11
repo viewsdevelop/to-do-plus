@@ -134,12 +134,6 @@ function App() {
     }
   }, [isSigningOut, user])
 
-  useEffect(() => {
-    return () => {
-      document.documentElement.style.overflow = 'auto'
-    }
-  }, [])
-
   // Other components and JSX
   const UnauthenticatedApp = () => (
     <>
