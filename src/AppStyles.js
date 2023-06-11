@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme) => ({
   appRoot: {
     height: '100vh',
     overflowY: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      height: '90vh',
+    },
   },
   authComponent: {
     position: 'absolute',
@@ -27,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
-    position: 'relative',
+    position: 'fixed',
+    width: '100%',
   },
   clickableTitle: {
     cursor: 'pointer',
@@ -95,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   signingOutContainer: {
-    position: 'absolute',
+    position: 'fixed',
     top: 'calc(50%)',
     left: '50%',
     transform: 'translateX(-50%)',
@@ -143,6 +147,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Tsukimi Rounded, sans-serif',
     margin: '0 10px',
     lineHeight: '1',
+  },
+  unauthenticatedAppContainer: {
+    position: 'fixed',
+    width: '75%',
   },
   welcomeMessage: {
     fontSize: '1.5em',

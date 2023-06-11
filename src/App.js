@@ -136,7 +136,7 @@ function App() {
 
   // Other components and JSX
   const UnauthenticatedApp = () => (
-    <>
+    <div className={classes.unauthenticatedAppContainer}>
       <div className={classes.titleContainer}>
         <span className={classes.todoText}>ToDo+</span>
       </div>
@@ -165,7 +165,7 @@ function App() {
           )}
         </div>
       </Fade>
-    </>
+    </div>
   )
 
   return (
