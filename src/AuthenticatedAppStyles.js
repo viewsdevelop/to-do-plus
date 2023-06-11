@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchBar: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(3),
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       marginBottom: theme.spacing(2),
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '20px',
     marginBottom: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.spacing(15),
+      marginBottom: theme.spacing(5),
     },
   },
   addNewContainer: {
