@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 // Material UI / Styles
 import Typography from '@material-ui/core/Typography'
