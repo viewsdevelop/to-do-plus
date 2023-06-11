@@ -89,13 +89,11 @@ function App() {
   const handleShowSignUp = () => {
     setIsSignInVisible(false)
     setIsSignUpVisible(true)
-    document.documentElement.style.overflow = 'hidden'
   }
 
   const handleShowSignIn = () => {
     setIsSignInVisible(true)
     setIsSignUpVisible(false)
-    document.documentElement.style.overflow = 'hidden'
   }
 
   const handleSignOut = () => {
