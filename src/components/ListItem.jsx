@@ -5,60 +5,17 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-
-const useStyles = makeStyles((theme) => ({
-  card: {
-    marginBottom: '10px',
-    backgroundColor: '#fef5ab',
-    width: '250px',
-    position: 'relative',
-    overflow: 'hidden',
-    borderRadius: '10px',
-    boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
-  },
-  cardContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing(2),
-  },
-  task: {
-    marginBottom: '5px',
-  },
-  description: {
-    marginTop: '5px',
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: theme.spacing(2),
-    width: '100%',
-  },
-  button: {
-    flex: 1,
-    margin: theme.spacing(1),
-    padding: theme.spacing(1, 2),
-    fontSize: '0.8rem',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-  },
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-}))
+import ListItemStyles from '../AuthenticatedAppStyles'
 
 function ListItem({ item, onRemove, onSave }) {
-  const classes = useStyles()
   const [isVisible, setIsVisible] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(item.title)
   const [description, setDescription] = useState(item.description)
   const [titleError, setTitleError] = useState(false)
   const [descriptionError, setDescriptionError] = useState(false)
+
+  const classes = ListItemStyles()
 
   const handleRemoveClick = () => {
     setIsVisible(false)
