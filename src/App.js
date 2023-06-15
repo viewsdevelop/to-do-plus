@@ -137,9 +137,6 @@ function App() {
   // Other components and JSX
   const UnauthenticatedApp = () => (
     <div className={classes.unauthenticatedAppContainer}>
-      <div className={classes.titleContainer}>
-        <span className={classes.todoText}>ToDo+</span>
-      </div>
       <Fade in={showSigningOutMessage} timeout={fadeTimeout} unmountOnExit>
         <div className={classes.signingOutContainer}>
           <Typography className={classes.signingOutMessage}>
@@ -200,6 +197,9 @@ function App() {
           )}
         </div>
         <div className={classes.cardContainer}>
+          <div className={classes.titleContainer}>
+            <span className={classes.todoText}>ToDo+</span>
+          </div>
           <div className={classes.authContainer}>
             <Fade
               in={
