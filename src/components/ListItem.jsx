@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+
+// Material UI / Styles
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import ListItemStyles from '../ListItemStyles'
+import useStyles from '../styles/ListItemStyles'
 
 function ListItem({ item, onRemove, onSave }) {
   const [isVisible, setIsVisible] = useState(true)
@@ -14,7 +16,7 @@ function ListItem({ item, onRemove, onSave }) {
   const [titleError, setTitleError] = useState(false)
   const [descriptionError, setDescriptionError] = useState(false)
 
-  const classes = ListItemStyles()
+  const classes = useStyles()
 
   const handleRemoveClick = () => {
     setIsVisible(false)

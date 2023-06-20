@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
 import Divider from '@material-ui/core/Divider'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import AuthenticatedAppStyles from '../AuthenticatedAppStyles'
+import useStyles from '../styles/AuthenticatedAppStyles'
 
 // Components
 import List from './List'
@@ -29,7 +29,7 @@ function AuthenticatedApp({ fadeTimeout, user }) {
   const [filteredItems, setFilteredItems] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
 
-  const classes = AuthenticatedAppStyles()
+  const classes = useStyles()
 
   const userItemsCollectionRef =
     user && collection(getFirestore(App), 'users', user.uid, 'items')

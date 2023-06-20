@@ -1,7 +1,7 @@
 import './App.css'
 import React, { useState, useEffect } from 'react'
 
-// Material UI /
+// Material UI
 import {
   Modal,
   CssBaseline,
@@ -14,7 +14,7 @@ import {
 
 // Animations / Styles
 import { FadeLoader } from 'react-spinners'
-import useStyles from './AppStyles'
+import useStyles from './styles/AppStyles'
 
 // Assets
 import logo from './assets/logo.png'

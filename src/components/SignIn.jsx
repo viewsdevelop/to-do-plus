@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+
+// Material UI / Styles
 import {
   TextField,
   Button,
@@ -6,49 +8,12 @@ import {
   CircularProgress,
   Card,
   CardContent,
-  makeStyles,
 } from '@material-ui/core'
 import { LockOpen } from '@material-ui/icons'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import useStyles from '../styles/SignInStyles'
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    width: '70%',
-    margin: '0 auto',
-    marginTop: theme.spacing(4),
-    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-    [theme.breakpoints.down('sm')]: {
-      width: '90%',
-    },
-  },
-  cardContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(2),
-  },
-  cardHeight: {
-    minHeight: '310px',
-    overflow: 'auto',
-    [theme.breakpoints.down('sm')]: {
-      minHeight: '330px',
-      overflow: 'auto',
-    },
-  },
-  signInButton: {
-    marginTop: theme.spacing(4),
-  },
-  loadingContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signInError: {
-    marginTop: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'center',
-  },
-}))
+// Firebase
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
 function SignIn() {
   const [email, setEmail] = useState('')
