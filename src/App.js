@@ -142,7 +142,7 @@ function App() {
           <Typography className={classes.signingOutMessage}>
             Signing Out...
           </Typography>
-          <FadeLoader color="#333" loading={showSigningOutMessage} />
+          <FadeLoader {...{ color: '#333', loading: showSigningOutMessage }} />
         </div>
       </Fade>
       <Fade
@@ -214,7 +214,7 @@ function App() {
               }}
             >
               {user ? (
-                <AuthenticatedApp fadeTimeout={fadeTimeout} user={user} />
+                <AuthenticatedApp {...{ fadeTimeout, user }} />
               ) : (
                 <UnauthenticatedApp />
               )}
@@ -222,9 +222,11 @@ function App() {
           </div>
         </div>
         <Modal
-          open={showConfirmationModal}
-          onClose={handleCancelSignOut}
-          className={classes.modal}
+          {...{
+            open: showConfirmationModal,
+            onClose: handleCancelSignOut,
+            className: classes.modal,
+          }}
         >
           <Fade
             in={showConfirmationModal}
