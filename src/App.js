@@ -2,15 +2,7 @@ import './App.css'
 import React, { useState, useEffect } from 'react'
 
 // Material UI
-import {
-  Modal,
-  CssBaseline,
-  Typography,
-  Button,
-  Fade,
-  createTheme,
-  ThemeProvider,
-} from '@material-ui/core'
+import { MaterialUIComponents } from './components/MaterialUIComponents'
 
 // Animations / Styles
 import { FadeLoader } from 'react-spinners'
@@ -31,6 +23,16 @@ import firebaseConfig from './firebaseConfig'
 
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
+
+const {
+  Modal,
+  CssBaseline,
+  Typography,
+  Button,
+  Fade,
+  createTheme,
+  ThemeProvider,
+} = MaterialUIComponents
 
 const APP_STATES = {
   SIGNED_OUT: 'SIGNED_OUT',
