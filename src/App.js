@@ -42,12 +42,16 @@ const APP_STATES = {
 }
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [authState, setAuthState] = useState({
+    user: null,
+    appState: APP_STATES.SIGNED_OUT,
+    isSigningOut: false,
+    showSigningOutMessage: false,
+  })
+
+  const { user, appState, isSigningOut, showSigningOutMessage } = authState
   const [isSignInVisible, setIsSignInVisible] = useState(false)
   const [isSignUpVisible, setIsSignUpVisible] = useState(true)
-  const [isSigningOut, setIsSigningOut] = useState(false)
-  const [appState, setAppState] = useState(APP_STATES.SIGNED_OUT)
-  const [showSigningOutMessage, setShowSigningOutMessage] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const duration = 500
@@ -71,22 +75,6 @@ function App() {
     },
   })
 
-  // Auth state change listener
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
-      if (userAuth) {
-        const { displayName, uid, email } = userAuth
-        setUser({ displayName, uid, email })
-        setAppState(APP_STATES.SIGNED_IN)
-      } else {
-        setUser(null)
-        setAppState(APP_STATES.SIGNED_OUT)
-      }
-    })
-
-    return () => unsubscribe()
-  }, [])
-
   // Handler functions
   const handleShowSignUp = () => {
     setIsSignInVisible(false)
@@ -104,17 +92,22 @@ function App() {
 
   const handleConfirmSignOut = () => {
     setShowConfirmationModal(false)
-    setAppState(APP_STATES.LOGGING_OUT)
-    setIsSigningOut(true)
-    setShowSigningOutMessage(true)
+    setAuthState((prevState) => ({
+      ...prevState,
+      appState: APP_STATES.LOGGING_OUT,
+      isSigningOut: true,
+      showSigningOutMessage: true,
+    }))
+
     signOut(auth)
       .then(() => {
-        setUser(null)
-        setAppState(APP_STATES.SIGNED_OUT)
-        setTimeout(() => {
-          setIsSigningOut(false)
-          setShowSigningOutMessage(false)
-        }, 1000)
+        setAuthState((prevState) => ({
+          ...prevState,
+          user: null,
+          appState: APP_STATES.SIGNED_OUT,
+          isSigningOut: false,
+          showSigningOutMessage: false,
+        }))
       })
       .catch((error) => {
         console.log(error)
@@ -132,9 +125,33 @@ function App() {
   // useEffect hooks
   useEffect(() => {
     if (isSigningOut && !user) {
-      setIsSigningOut(false)
+      setAuthState((prevState) => ({
+        ...prevState,
+        isSigningOut: false,
+      }))
     }
   }, [isSigningOut, user])
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        const { displayName, uid, email } = userAuth
+        setAuthState((prevState) => ({
+          ...prevState,
+          user: { displayName, uid, email },
+          appState: APP_STATES.SIGNED_IN,
+        }))
+      } else {
+        setAuthState((prevState) => ({
+          ...prevState,
+          user: null,
+          appState: APP_STATES.SIGNED_OUT,
+        }))
+      }
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   // Other components and JSX
   const UnauthenticatedApp = () => (
