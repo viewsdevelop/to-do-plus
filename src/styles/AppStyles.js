@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   logoContainer: {
     display: 'flex',
     alignItems: 'center',
+    cursor: 'pointer',
   },
   modal: {
     display: 'flex',
